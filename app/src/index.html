@@ -7,22 +7,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="content-language" content="pt-BR" />
   <meta name="theme-color" content="">
-  <meta name="description"
-    content="Aplicação para voltar o seu dia a ter novamente 24hrs, organize-se!"
-  />
+  <meta name="description" content="Aplicação para voltar o seu dia a ter novamente 24hrs, organize-se!" />
   <meta name="author" content="Douglas Morais" />
   <meta name="emailAuthor" content="douglascarvalhomorais@hotmail.com" />
 
-  <link rel="icon" type="image/x-icon" href="../assets/icons/icon-to-do-list@16.png" sizes="16x16"/>
-  <link rel="icon" type="image/x-icon" href="../assets/icons/icon-to-do-list@32.png" sizes="32x32"/>
-  <link rel="icon" type="image/x-icon" href="../assets/icons/icon-to-do-list@64.png" sizes="64x64"/>
-  <link rel="icon" type="image/x-icon" href="../assets/icons/icon-to-do-list@128.png" sizes="128x128"/>
-  <link rel="icon" type="image/x-icon" href="../assets/icons/icon-to-do-list@256.png" sizes="256x256"/>
-  <link rel="icon" type="image/x-icon" href="../assets/icons/icon-to-do-list@512.png" sizes="512x512"/>
+  <link rel="icon" type="image/x-icon" href="../assets/icons/icon-todolist@16.png" sizes="16x16" />
+  <link rel="icon" type="image/x-icon" href="../assets/icons/icon-todolist@32.png" sizes="32x32" />
+  <link rel="icon" type="image/x-icon" href="../assets/icons/icon-todolist@64.png" sizes="64x64" />
+  <link rel="icon" type="image/x-icon" href="../assets/icons/icon-todolist@128.png" sizes="128x128" />
+  <link rel="icon" type="image/x-icon" href="../assets/icons/icon-todolist@256.png" sizes="256x256" />
+  <link rel="icon" type="image/x-icon" href="../assets/icons/icon-todolist@512.png" sizes="512x512" />
+
+  <link rel="stylesheet" href="./style.css">
+
+  
 </head>
 
 <body>
-  <app-root></app-root>
+  <div class="container">
+    <div class="elements-center-xy w-100 my">
+      <img id="brand" src="../assets/icons/icon-todolist@64.png" alt="Icone To-Do List">
+    </div>
+
+    <div class="elements-center-x w-100 my">
+      <div id="field-base" class="elements-center-x p-xy rounded">
+        <div class="input-container">
+          <img src="../assets/icons/plus-square-solid.svg" class="input-img">
+          <input type="text" placeholder="Insira sua tarefa...">
+        </div>
+      </div>
+      
+    </div>
+
+    
+    
+  </div>
 </body>
 
 </html>
