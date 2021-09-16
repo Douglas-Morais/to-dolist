@@ -1,0 +1,57 @@
+.wh-100 {
+  width: 100vw;
+  height: 100vh
+}
+
+.w-100 {
+  width: 100vw;
+}
+
+.h-100 {
+  height: 100vh;
+}
+
+.elements-center-x {
+  display: inline-flex;
+  justify-content: center;
+}
+
+.elements-center-y {
+  display: inline-flex;
+  align-items: center;
+}
+
+.elements-center-xy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rounded {
+  border-radius: 10px;  
+}
+
+.px {
+  padding: 0px 20px;
+}
+
+.py {
+  padding: 20px 0px;
+}
+
+.p-xy {
+  padding: 20px;
+}
+
+.mx {
+  margin: 0px 20px;
+}
+
+.my {
+  margin: 20px 0px;
+}
+
+.m-xy {
+  margin: 20px;
+}
+
