@@ -28,7 +28,7 @@
 }
 
 .rounded {
-  border-radius: 10px;  
+  border-radius: 10px;
 }
 
 .px {
@@ -43,6 +43,10 @@
   padding: 20px;
 }
 
+.pb {
+  padding: 0px 0px 12px 0px;
+}
+
 .mx {
   margin: 0px 20px;
 }
@@ -55,3 +59,36 @@
   margin: 20px;
 }
 
+[class*="text-"] {
+  font-family: var(--main-font-gamja);
+  opacity: .9;
+}
+
+.text-white {
+  color: var(--main-white)
+}
+.text-black {
+  color: var(--main-black)
+}
+.text-green {
+  color: var(--main-green)
+}
+.text-purple {
+  color: var(--main-purple)
+}
+.text-red {
+  color: var(--main-red)
+}
+.text-yellow {
+  color: var(--main-yellow)
+}
+.text-blue-dark {
+  color: var(--main-blue-dark)
+}
+.text-blue-light {
+  color: var(--main-blue-light)
+}
+
+.text-center {
+  text-align: center;
+}
