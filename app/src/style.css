@@ -16,7 +16,11 @@
 
 #brand {
   height: 50px;
-  box-shadow: white 0px 0px 20px;
+  box-shadow: white 0px 0px 20px !important;
+}
+
+#input-task {
+  padding: 0px 40px 0px 10px;
 }
 
 .input-container {
