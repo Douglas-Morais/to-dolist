@@ -19,8 +19,7 @@
   <link rel="icon" type="image/x-icon" href="../assets/icons/icon-todolist@512.png" sizes="512x512" />
 
   <link rel="stylesheet" href="./style.css">
-
-
+  <script type="module" src="./task/task.component.js" defer></script>
 </head>
 
 <body>
@@ -35,7 +34,7 @@
 
         <div class="col-12 pb">
           <label for="input-deadline">Qual o prazo final?</label>
-          <input id="input-deadline" type="date" placeholder="Insira sua tarefa..." name="task" autocomplete="off" />
+          <input id="input-deadline" type="date" placeholder="Insira sua tarefa..." name="deadline" autocomplete="off" />
         </div>
 
         <div class="col-12 pb">
@@ -49,6 +48,8 @@
         <h2 class="my text-white text-center">lista de tarefas</h2>
         
         <div class="list-nav">
+
+          <app-task></app-task>
 
           <!-- task component created -->
           <div class="row pb">
@@ -67,16 +68,17 @@
             </div>
           </div>
 
-
           <!-- task component checked -->
           <div class="row pb">
             <div class="col-1 elements-center-xy">
               <img src="../assets/icons/hand-ok-solid.svg" alt="Editar" height="20">
             </div>
             <div class="col-10 tooltip">
-              <span class="tooltiptext">Concluído!</span>
-              <input type="text" class="input-plain-text" name="id" autocomplete="off" placeholder="Task checked"
-                readonly checked />
+              <form id="formEdit">
+                <span class="tooltiptext">Concluído!</span>
+                <input type="text" class="input-plain-text" name="id" autocomplete="off" placeholder="Task checked"
+                  readonly checked />
+              </form>
             </div>
             <div class="col-1 elements-center-xy">
               <img src="../assets/icons/check-double-solid.svg" alt="concluido" height="20">
