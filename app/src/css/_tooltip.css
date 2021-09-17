@@ -12,12 +12,12 @@
   border-radius: 5px;
   padding: 5px 0;
   position: absolute;
-  bottom: 125%;
+  bottom: 120%;
   left: 50%;
   margin-left: -100px;
   z-index: 1090;
   opacity: 0;
-  transition: opacity 0.25s;
+  transition: opacity 0.35s;
 }
 
 .tooltip .tooltiptext::after {
