@@ -20,10 +20,10 @@
 
   <link rel="stylesheet" href="./style.css">
   <script type="module" src="./task/task.component.js" defer></script>
+  <script type="module" src="./main.js" defer></script>
 </head>
 
 <body>
-
   <div class="container">
     <div class="elements-center-xy w-100 my">
       <img id="brand" src="../assets/icons/icon-todolist@64.png" alt="Icone To-Do List">
@@ -34,7 +34,8 @@
 
         <div class="col-12 pb">
           <label for="input-deadline">Qual o prazo final?</label>
-          <input id="input-deadline" type="date" placeholder="Insira sua tarefa..." name="deadline" autocomplete="off" />
+          <input id="input-deadline" type="date" placeholder="Insira sua tarefa..." name="deadline"
+            autocomplete="off" />
         </div>
 
         <div class="col-12 pb">
@@ -46,30 +47,33 @@
         </div>
 
         <h2 class="my text-white text-center">lista de tarefas</h2>
-        
+
         <div class="list-nav">
+          <!-- template -->
+          <template id="task-template">
+            <link rel="stylesheet" href="./style.css">
+            <div class="row pb">
+              <div class="col-1 elements-center-xy">
+                <img src="../assets/icons/pen-alt-solid.svg" alt="Editar" height="20">
+              </div>
+              <div class="col-9 tooltip">
+                <span class="tooltiptext">Prazo até 15/10/2021</span>
+                <input type="text" class="input-plain-text" name="id" autocomplete="off" readonly />
+              </div>
+              <div class="col-1 elements-center-xy">
+                <img src="../assets/icons/minus-square-solid.svg" alt="excluir" height="20">
+              </div>
+              <div class="col-1 elements-center-xy">
+                <img src="../assets/icons/check-solid.svg" alt="concluir" height="20">
+              </div>
+            </div>
+          </template>
 
-          <app-task></app-task>
+          <app-main></app-main>
 
-          <!-- task component created -->
-          <div class="row pb">
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/pen-alt-solid.svg" alt="Editar" height="20">
-            </div>
-            <div class="col-9 tooltip">
-              <span class="tooltiptext">Prazo até 15/10/2021</span>
-              <input type="text" class="input-plain-text" name="id" autocomplete="off" readonly />
-            </div>
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/minus-square-solid.svg" alt="excluir" height="20">
-            </div>
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/check-solid.svg" alt="concluir" height="20">
-            </div>
-          </div>
 
           <!-- task component checked -->
-          <div class="row pb">
+          <!-- <div class="row pb">
             <div class="col-1 elements-center-xy">
               <img src="../assets/icons/hand-ok-solid.svg" alt="Editar" height="20">
             </div>
@@ -83,147 +87,8 @@
             <div class="col-1 elements-center-xy">
               <img src="../assets/icons/check-double-solid.svg" alt="concluido" height="20">
             </div>
-          </div>
-          <!-- task component checked -->
-          <div class="row pb">
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/hand-ok-solid.svg" alt="Editar" height="20">
-            </div>
-            <div class="col-10 tooltip">
-              <span class="tooltiptext">Concluído!</span>
-              <input type="text" class="input-plain-text" name="id" autocomplete="off" placeholder="Task checked"
-                readonly checked />
-            </div>
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/check-double-solid.svg" alt="concluido" height="20">
-            </div>
-          </div>
-          <!-- task component checked -->
-          <div class="row pb">
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/hand-ok-solid.svg" alt="Editar" height="20">
-            </div>
-            <div class="col-10 tooltip">
-              <span class="tooltiptext">Concluído!</span>
-              <input type="text" class="input-plain-text" name="id" autocomplete="off" placeholder="Task checked"
-                readonly checked />
-            </div>
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/check-double-solid.svg" alt="concluido" height="20">
-            </div>
-          </div>
-          <!-- task component checked -->
-          <div class="row pb">
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/hand-ok-solid.svg" alt="Editar" height="20">
-            </div>
-            <div class="col-10 tooltip">
-              <span class="tooltiptext">Concluído!</span>
-              <input type="text" class="input-plain-text" name="id" autocomplete="off" placeholder="Task checked"
-                readonly checked />
-            </div>
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/check-double-solid.svg" alt="concluido" height="20">
-            </div>
-          </div>
-          <!-- task component checked -->
-          <div class="row pb">
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/hand-ok-solid.svg" alt="Editar" height="20">
-            </div>
-            <div class="col-10 tooltip">
-              <span class="tooltiptext">Concluído!</span>
-              <input type="text" class="input-plain-text" name="id" autocomplete="off" placeholder="Task checked"
-                readonly checked />
-            </div>
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/check-double-solid.svg" alt="concluido" height="20">
-            </div>
-          </div>
-          <!-- task component checked -->
-          <div class="row pb">
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/hand-ok-solid.svg" alt="Editar" height="20">
-            </div>
-            <div class="col-10 tooltip">
-              <span class="tooltiptext">Concluído!</span>
-              <input type="text" class="input-plain-text" name="id" autocomplete="off" placeholder="Task checked"
-                readonly checked />
-            </div>
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/check-double-solid.svg" alt="concluido" height="20">
-            </div>
-          </div>
-          <!-- task component checked -->
-          <div class="row pb">
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/hand-ok-solid.svg" alt="Editar" height="20">
-            </div>
-            <div class="col-10 tooltip">
-              <span class="tooltiptext">Concluído!</span>
-              <input type="text" class="input-plain-text" name="id" autocomplete="off" placeholder="Task checked"
-                readonly checked />
-            </div>
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/check-double-solid.svg" alt="concluido" height="20">
-            </div>
-          </div>
-          <!-- task component checked -->
-          <div class="row pb">
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/hand-ok-solid.svg" alt="Editar" height="20">
-            </div>
-            <div class="col-10 tooltip">
-              <span class="tooltiptext">Concluído!</span>
-              <input type="text" class="input-plain-text" name="id" autocomplete="off" placeholder="Task checked"
-                readonly checked />
-            </div>
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/check-double-solid.svg" alt="concluido" height="20">
-            </div>
-          </div>
-          <!-- task component checked -->
-          <div class="row pb">
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/hand-ok-solid.svg" alt="Editar" height="20">
-            </div>
-            <div class="col-10 tooltip">
-              <span class="tooltiptext">Concluído!</span>
-              <input type="text" class="input-plain-text" name="id" autocomplete="off" placeholder="Task checked"
-                readonly checked />
-            </div>
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/check-double-solid.svg" alt="concluido" height="20">
-            </div>
-          </div>
-          <!-- task component checked -->
-          <div class="row pb">
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/hand-ok-solid.svg" alt="Editar" height="20">
-            </div>
-            <div class="col-10 tooltip">
-              <span class="tooltiptext">Concluído!</span>
-              <input type="text" class="input-plain-text" name="id" autocomplete="off" placeholder="Task checked"
-                readonly checked />
-            </div>
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/check-double-solid.svg" alt="concluido" height="20">
-            </div>
-          </div>
-          <!-- task component checked -->
-          <div class="row pb">
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/hand-ok-solid.svg" alt="Editar" height="20">
-            </div>
-            <div class="col-10 tooltip">
-              <span class="tooltiptext">Concluído!</span>
-              <input type="text" class="input-plain-text" name="id" autocomplete="off" placeholder="Task checked"
-                readonly checked />
-            </div>
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/check-double-solid.svg" alt="concluido" height="20">
-            </div>
-          </div>
+          </div> -->
+
 
         </div>
 
@@ -231,5 +96,8 @@
     </div>
   </div>
 </body>
+
+<script>
+</script>
 
 </html>
