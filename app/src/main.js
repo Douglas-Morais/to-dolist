@@ -10,15 +10,16 @@ export class AppMain extends HTMLElement {
 
   connectedCallback() {
     const shadow = this.attachShadow({ mode: 'open' });
-    
+
     const listTask = this.createTasks(this.dataFake);
-    listTask.forEach( task => shadow.appendChild(task));
+    listTask.forEach(task => shadow.appendChild(task));
   }
 
   createTasks(arrayTasks) {
     const dataTasks = [...arrayTasks];
-    const createTask = (_, id) => {
+    const createTask = (data, index) => {
       const task = document.createElement('app-task');
+      if (data.isComplete) { task.setAttribute('done', true) }
 
       return task;
     }

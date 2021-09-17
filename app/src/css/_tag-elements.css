@@ -31,7 +31,7 @@ input[class*="input-"]:focus {
 }
 
 input[checked] {
-  border-bottom: none;
+  border-bottom-color: var(--main-green);
   text-decoration: line-through;
   color: var(--main-green);
   font-size: 1rem;

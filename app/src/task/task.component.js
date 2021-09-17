@@ -10,12 +10,18 @@ export class AppTask extends HTMLElement {
 
   constructor() {
     super();
+  }
+
+  connectedCallback() {
     this.build();
   }
 
 
   build() {
-    const template = document.getElementById('task-template');
+    let templateNameId = 'task-todo';
+    if (this.hasAttribute('done')) { templateNameId = 'task-done' }
+
+    const template = document.getElementById(templateNameId);
     const templateContent = template.content;
     const shadow = this.attachShadow({ mode: 'open' });
     shadow.appendChild(templateContent.cloneNode(true));

@@ -49,8 +49,9 @@
         <h2 class="my text-white text-center">lista de tarefas</h2>
 
         <div class="list-nav">
+
           <!-- template -->
-          <template id="task-template">
+          <template id="task-todo">
             <link rel="stylesheet" href="./style.css">
             <div class="row pb">
               <div class="col-1 elements-center-xy">
@@ -69,29 +70,30 @@
             </div>
           </template>
 
+
+          <template id="task-done">
+            <link rel="stylesheet" href="./style.css">
+            <div class="row pb">
+              <div class="col-1 elements-center-xy">
+                <img src="../assets/icons/hand-ok-solid.svg" alt="Editar" height="20">
+              </div>
+              <div class="col-9 tooltip">
+                <form id="formEdit">
+                  <span class="tooltiptext">Concluído!</span>
+                  <input type="text" class="input-plain-text" name="id" autocomplete="off" placeholder="Task checked"
+                    readonly checked />
+                </form>
+              </div>
+              <div class="col-2 elements-center-xy">
+                <img src="../assets/icons/check-double-solid.svg" alt="concluido" height="20">
+              </div>
+            </div>
+          </template>
+
+
           <app-main></app-main>
 
-
-          <!-- task component checked -->
-          <!-- <div class="row pb">
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/hand-ok-solid.svg" alt="Editar" height="20">
-            </div>
-            <div class="col-10 tooltip">
-              <form id="formEdit">
-                <span class="tooltiptext">Concluído!</span>
-                <input type="text" class="input-plain-text" name="id" autocomplete="off" placeholder="Task checked"
-                  readonly checked />
-              </form>
-            </div>
-            <div class="col-1 elements-center-xy">
-              <img src="../assets/icons/check-double-solid.svg" alt="concluido" height="20">
-            </div>
-          </div> -->
-
-
         </div>
-
       </div>
     </div>
   </div>
