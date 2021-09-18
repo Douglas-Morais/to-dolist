@@ -55,9 +55,11 @@
           <!-- template -->
           <template id="task-todo">
             <link rel="stylesheet" href="./style.css">
-            <div class="row pb">
+            <div id="task" class="row pb">
               <div class="col-1 elements-center-xy">
-                <img src="../assets/icons/pen-alt-solid.svg" alt="Editar" height="20">
+                <img src="../assets/icons/pen-alt-solid.svg" alt="Editar" height="20"
+                  class="btn-edit"
+                />
               </div>
               <div class="col-9 tooltip">
                 <span id="deadline" class="tooltiptext">
@@ -66,10 +68,14 @@
                 <input id="description" type="text" class="input-plain-text" autocomplete="off" readonly />
               </div>
               <div class="col-1 elements-center-xy">
-                <img src="../assets/icons/minus-square-solid.svg" alt="excluir" height="20">
+                <img src="../assets/icons/minus-square-solid.svg" alt="excluir" height="20"
+                  class="btn-remove"
+                />
               </div>
               <div class="col-1 elements-center-xy">
-                <img src="../assets/icons/check-solid.svg" alt="concluir" height="20">
+                <img id="check" src="../assets/icons/check-solid.svg" alt="concluir" height="20"
+                  class="btn-check"
+                />
               </div>
             </div>
           </template>

@@ -1,10 +1,5 @@
 
 export class AppTask extends HTMLElement {
-  pathIconEdit = '../assets/icons/pen-alt-solid.svg';
-  pathIconMinus = '../assets/icons/minus-square-solid.svg';
-  pathIconCheck = '../assets/icons/check-solid.svg';
-  pathIconHand = '../assets/icons/hand-ok-solid.svg';
-  pathIconDoubleCheck = '../assets/icons/check-double-solid.svg';
 
   constructor() {
     super();
@@ -29,6 +24,21 @@ export class AppTask extends HTMLElement {
     const inputDescription = this.shadowRoot.getElementById('description');
     inputDescription.value = descriptionTask;
 
+    const check = this.shadowRoot.getElementById('check');
+    check ? check.addEventListener('mouseover', this.checkFxMouseOver.bind(this)) : null;
+    check ? check.addEventListener('mouseout', this.checkFxMouseOut.bind(this)) : null;
+    
+
+  }
+
+  checkFxMouseOver() {
+    const elTask = this.shadowRoot.getElementById('task');
+    elTask.classList.add('task-check-hover');
+  }
+
+  checkFxMouseOut() {
+    const elTask = this.shadowRoot.getElementById('task');
+    elTask.classList.remove('task-check-hover');
   }
 
 }
