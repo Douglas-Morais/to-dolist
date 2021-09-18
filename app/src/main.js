@@ -19,8 +19,24 @@ export class AppMain extends HTMLElement {
     const dataTasks = [...arrayTasks];
     const createTask = (data, index) => {
       const task = document.createElement('app-task');
-      if (data.isComplete) { task.setAttribute('done', true) }
 
+      task.setAttribute('description', data.description);
+
+      const deadline = document.createElement('span');
+      deadline.setAttribute('slot', 'deadline')
+      deadline.innerHTML = data.deadline;      
+
+      const description = document.createElement('span');
+      description.setAttribute('slot', 'description')
+      description.innerHTML = data.description;
+      
+      if (data.isComplete) {
+        task.setAttribute('done', '');
+        deadline.innerHTML = "Concluído!";
+      }
+
+      task.appendChild(description);
+      task.appendChild(deadline);
       return task;
     }
 

@@ -6,8 +6,6 @@ export class AppTask extends HTMLElement {
   pathIconHand = '../assets/icons/hand-ok-solid.svg';
   pathIconDoubleCheck = '../assets/icons/check-double-solid.svg';
 
-  idTask = 0;
-
   constructor() {
     super();
   }
@@ -23,8 +21,14 @@ export class AppTask extends HTMLElement {
 
     const template = document.getElementById(templateNameId);
     const templateContent = template.content;
+
     const shadow = this.attachShadow({ mode: 'open' });
     shadow.appendChild(templateContent.cloneNode(true));
+
+    const descriptionTask = this.getAttribute('description');
+    const inputDescription = this.shadowRoot.getElementById('description');
+    inputDescription.value = descriptionTask;
+
   }
 
 }

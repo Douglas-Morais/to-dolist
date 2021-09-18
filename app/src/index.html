@@ -60,8 +60,10 @@
                 <img src="../assets/icons/pen-alt-solid.svg" alt="Editar" height="20">
               </div>
               <div class="col-9 tooltip">
-                <span class="tooltiptext">Prazo até 15/10/2021</span>
-                <input type="text" class="input-plain-text" name="id" autocomplete="off" readonly />
+                <span id="deadline" class="tooltiptext">
+                  Prazo até <slot name="deadline">15/10/2021</slot>
+                </span>
+                <input id="description" type="text" class="input-plain-text" autocomplete="off" readonly />
               </div>
               <div class="col-1 elements-center-xy">
                 <img src="../assets/icons/minus-square-solid.svg" alt="excluir" height="20">
@@ -81,8 +83,10 @@
               </div>
               <div class="col-9 tooltip">
                 <form id="formEdit">
-                  <span class="tooltiptext">Concluído!</span>
-                  <input type="text" class="input-plain-text" name="id" autocomplete="off" placeholder="Task checked"
+                  <span id="deadline" class="tooltiptext">
+                    <slot name="deadline">Concluído!</slot>
+                  </span>
+                  <input id="description" type="text" class="input-plain-text" autocomplete="off" placeholder="Task checked"
                     readonly checked />
                 </form>
               </div>
