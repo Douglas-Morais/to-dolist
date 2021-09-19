@@ -48,16 +48,15 @@
           </div>
         </div>
 
-        <h2 class="text-white text-center">lista de tarefas</h2>
+        <h2 class="text-white text-center">Lista de tarefas</h2>
 
-        <div class="list-nav">
-
+        <div id="list-tasks" class="list-tasks">
           <!-- template -->
-          <template id="task-todo">
+          <template id="task-template">
             <link rel="stylesheet" href="./style.css">
             <div id="task" class="row pb">
               <div class="col-1 elements-center-xy">
-                <img src="../assets/icons/pen-alt-solid.svg" alt="Editar" height="20"
+                <img id="edit" src="../assets/icons/pen-alt-solid.svg" alt="Editar" height="20"
                   class="btn-edit"
                 />
               </div>
@@ -65,10 +64,12 @@
                 <span id="deadline" class="tooltiptext">
                   Prazo até <slot name="deadline">15/10/2021</slot>
                 </span>
-                <input id="description" type="text" class="input-plain-text" autocomplete="off" readonly />
+                <input id="description" type="text" class="input-plain-text"
+                  autocomplete="off" readonly 
+                />
               </div>
               <div class="col-1 elements-center-xy">
-                <img src="../assets/icons/minus-square-solid.svg" alt="excluir" height="20"
+                <img id="remove" src="../assets/icons/minus-square-solid.svg" alt="excluir" height="20"
                   class="btn-remove"
                 />
               </div>
@@ -76,28 +77,6 @@
                 <img id="check" src="../assets/icons/check-solid.svg" alt="concluir" height="20"
                   class="btn-check"
                 />
-              </div>
-            </div>
-          </template>
-
-
-          <template id="task-done">
-            <link rel="stylesheet" href="./style.css">
-            <div class="row pb">
-              <div class="col-1 elements-center-xy">
-                <img src="../assets/icons/hand-ok-solid.svg" alt="Editar" height="20">
-              </div>
-              <div class="col-9 tooltip">
-                <form id="formEdit">
-                  <span id="deadline" class="tooltiptext">
-                    <slot name="deadline">Concluído!</slot>
-                  </span>
-                  <input id="description" type="text" class="input-plain-text" autocomplete="off" placeholder="Task checked"
-                    readonly checked />
-                </form>
-              </div>
-              <div class="col-2 elements-center-xy">
-                <img src="../assets/icons/check-double-solid.svg" alt="concluido" height="20">
               </div>
             </div>
           </template>

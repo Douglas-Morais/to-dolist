@@ -21,14 +21,6 @@
   box-shadow: white 0px 0px 20px !important;
 }
 
-#task {
-  border-radius: 5px;
-  transition: all 350ms ease-in-out;
-  -o-transition: all 350ms ease-in-out;
-  -moz-transition: all 350ms ease-in-out;
-  -webkit-transition: all 350ms ease-in-out;
-}
-
 #input-task {
   padding: 0px 40px 0px 10px;
 }
@@ -41,13 +33,15 @@
 .input-img {
   position: absolute;
   height: 20px;
-  top: 126px;
+  top: 136px;
   right: 32px;
 }
 
-.list-nav {
+.list-tasks {
   overflow-y: auto;
   padding-top: 40px;
+  margin-top: 0px;
+  transition: all 250ms linear;
 }
 
 [class*="btn-"] {

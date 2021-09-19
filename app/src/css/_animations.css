@@ -1,0 +1,12 @@
+
+[class*="fade-"] {
+  transition: all 260ms ease-out;
+}
+
+.fade-leave {
+  opacity: 0;
+}
+
+.fade-in {
+  opacity: 1;
+}

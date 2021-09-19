@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Indie+Flower&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 
 :root {
   --main-white: #F6F6F6;
@@ -9,6 +9,5 @@
   --main-green: #8CC34B;
   --main-purple: #8C249F;
   --main-red: #9e3030;
-  --main-font-gamja: 'Gamja Flower', cursive;
-  --main-font-indie: 'Indie Flower', cursive;
+  --main-font-poppins: 'Poppins', sans-serif;
 }
