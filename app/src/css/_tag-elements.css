@@ -64,3 +64,18 @@ hr {
   width: 70%;
   margin: 20px;
 }
+
+button {
+  display: inline-block;
+  cursor: pointer;
+  background-color: var(--main-blue-dark);
+  border-radius: 5px;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 1rem;
+}
+
+button:hover {
+  box-shadow: 0px 0px 10px var(--main-blue-light);
+}

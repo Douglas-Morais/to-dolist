@@ -1,21 +1,43 @@
-import { DATAS_FAKE } from "./service/datafake.const.js";
+import Task from "./interface/task.js";
+import { ApiService } from "./service/api.service.js";
 
 export class AppMain extends HTMLElement {
-  dataFake = DATAS_FAKE;
+  apiService;
+  formTask;
 
   constructor() {
     super();
+    this.apiService = new ApiService();
     console.log('App Initialized!');
   }
 
   connectedCallback() {
     const shadow = this.attachShadow({ mode: 'open' });
 
-    const listTask = this.createTasks(this.dataFake);
+    const serverTasks = this.apiService.readTasks();
+    const listTask = this.showTasks(serverTasks);
     listTask.forEach(task => shadow.appendChild(task));
+
+    this.formTask = document.forms.namedItem('formTask');
+    this.formTask.addEventListener('submit', this.submitTask.bind(this));
   }
 
-  createTasks(arrayTasks) {
+  submitTask(ev) {
+    ev.preventDefault();
+    const formData = new FormData(ev.target);
+    let formProps = Object.fromEntries(formData);
+    
+    const task = new Task(
+      undefined,
+      formProps.description.trim(),
+      new Date(),
+      formProps.deadline
+    );
+
+    this.apiService.createTask(task);
+  }
+
+  showTasks(arrayTasks) {
     const dataTasks = [...arrayTasks];
     const createTask = (data, index) => {
       const task = document.createElement('app-task');

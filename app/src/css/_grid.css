@@ -2,7 +2,7 @@
 .grid-container {
   display: grid;
   grid:
-    'input' 180px
+    'input' 220px
     'title' 50px
     'list'
   ;
