@@ -64,6 +64,7 @@ export class AppTask extends HTMLElement {
         if(key === 'Enter') {
           this.inputDescription.blur();
           this.inputDescription.classList.remove('editing');
+          this.inputDescription.setAttribute('readonly','');
         }
       };
     }
