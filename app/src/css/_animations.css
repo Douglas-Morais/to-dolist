@@ -1,9 +1,13 @@
 
 [class*="fade-"] {
-  transition: all 260ms ease-out;
+  transition: all 250ms ease-in-out;
 }
 
-.fade-leave {
+.fade {
+  opacity: 0;
+}
+
+.fade-out {
   opacity: 0;
 }
 

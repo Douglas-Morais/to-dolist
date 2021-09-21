@@ -19,6 +19,7 @@ input {
   border-radius: 5px;
   transition: box-shadow 150ms ease-out;
   font-size: 1rem;
+  text-transform: capitalize;
 }
 
 input[class*="input-"] {
@@ -43,15 +44,22 @@ input[type="Date"] {
   font-family: sans-serif;
 }
 
+input:focus {
+  outline: none;
+  box-shadow: 0 0 5px 1px var(--main-white);
+}
 
 .input-plain-text {
   text-align: left;
   color: var(--main-yellow);
 }
 
-input:focus {
-  outline: none;
-  box-shadow: 0 0 5px 1px var(--main-white);
+.editing {
+  color: var(--main-white) !important;
+  border-bottom-color: var(--main-white) !important;
+  border-top: 1px solid var(--main-white) !important;
+  font-style: italic !important;
+  background-color: rgba(0,0,0,.1) !important;
 }
 
 ::placeholder {

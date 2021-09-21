@@ -58,13 +58,12 @@ export class AppTask extends HTMLElement {
     if(!this.inputDescription.hasAttribute('checked')) {
       this.inputDescription.removeAttribute('readonly');
       this.inputDescription.select();
-      this.inputDescription.style.borderBottomColor = 'var(--main-white)';
-      this.inputDescription.style.color = 'var(--main-white)';
+
+      this.inputDescription.classList.add('editing');
       this.inputDescription.onkeydown = ({key, ...event}) => {
         if(key === 'Enter') {
           this.inputDescription.blur();
-          this.inputDescription.style.borderBottomColor = 'var(--main-yellow)';
-          this.inputDescription.style.color = 'var(--main-yellow)';
+          this.inputDescription.classList.remove('editing');
         }
       };
     }
@@ -79,8 +78,7 @@ export class AppTask extends HTMLElement {
 
   removeTask() {
     const elTask = this.shadowRoot.getElementById('task');
-    const taskList = document.getElementById('list-nav');
-    elTask.classList.add('fade-leave');
+    elTask.classList.add('fade-out');
     elTask.addEventListener('transitionend', () => this.remove());
   }
 

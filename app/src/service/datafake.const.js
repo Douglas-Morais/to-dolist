@@ -1,5 +1,5 @@
 export const DATAS_FAKE = [
-  {
+  /* {
     id: 'b624fc62-92b8-41e6-a662-ac832db02e35',
     description: 'Trabalho de Faculdade',
     created: '1/10/2021',
@@ -26,5 +26,5 @@ export const DATAS_FAKE = [
     created: '9/11/2021',
     deadline: '18/11/2021',
     isComplete: false,
-  },
+  }, */
 ];
