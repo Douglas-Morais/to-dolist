@@ -42,8 +42,8 @@ export class AppMain extends HTMLElement {
   createTask(dataTask) {
     const task = document.createElement('app-task');
 
-    task.setAttribute('id', dataTask.id);
-    task.setAttribute('description', dataTask.description);
+    task.setAttribute('data-object', JSON.stringify(dataTask));
+    
 
     const deadline = document.createElement('span');
     deadline.setAttribute('slot', 'deadline');

@@ -9,9 +9,6 @@ export class ApiService {
   constructor() {
     this.dataTasks = DATAS_FAKE;
     this.eventEmitter = new EventEmitter();
-    
-    console.log('API Service Initialized!');
-
   }
 
   handleDbEvent() {
@@ -21,7 +18,7 @@ export class ApiService {
   createTask(task) {
     return new Promise((resolve, reject) => {
       this.dataTasks.push(task);
-      if(this.dataTasks.indexOf(task) !== -1) {
+      if (this.dataTasks.indexOf(task) !== -1) {
         task.id = this.dataTasks.indexOf(task);
         this.eventEmitter.emit(this.createEventDb, task);
         resolve();
@@ -33,16 +30,23 @@ export class ApiService {
 
   readTasks() {
     return new Promise((resolve, reject) => {
-      if(this.dataTasks) {
+      if (this.dataTasks) {
         resolve(this.dataTasks);
       }
       reject(new Error('Data Empty!'));
-    });    
+    });
   }
 
   updateTask(task) {
-    index = this.dataTasks.findIndex((itemTask) => itemTask.id === task.id);
-    console.warn('API Update!', index);
+    return new Promise((resolve, reject) => {
+      try {
+        this.dataTasks[task.id] = task;
+        resolve();
+      } catch (err) {
+        reject(err)
+      }
+
+    });
   }
 
   deleteTask(taskId) {

@@ -1,3 +1,5 @@
+import Task from "../interface/task.js";
+import { ApiService } from "../service/api.service.js";
 
 export class AppTask extends HTMLElement {
   pathIconDoubleCheck = '../assets/icons/check-double-solid.svg';
@@ -8,14 +10,23 @@ export class AppTask extends HTMLElement {
   buttonRemove;
   buttonEdit;
 
-  idTask;
+  task;
+  apiService;
 
-  constructor() {
+  constructor(task) {
     super();
+    this.apiService = new ApiService();
+    this.task = task;
   }
 
   connectedCallback() {
-    this.idTask = this.getAttribute('id');
+    const taskObject = JSON.parse(this.getAttribute('data-object'));
+    this.task = new Task(
+      taskObject.id,
+      taskObject.description,
+      taskObject.created,
+      taskObject.deadline
+    );
     this.build();
   }
 
@@ -55,19 +66,35 @@ export class AppTask extends HTMLElement {
   }
 
   editTask() {
-    if(!this.inputDescription.hasAttribute('checked')) {
+    if (!this.inputDescription.hasAttribute('checked')) {
+
       this.inputDescription.removeAttribute('readonly');
       this.inputDescription.select();
 
       this.inputDescription.classList.add('editing');
-      this.inputDescription.onkeydown = ({key, ...event}) => {
-        if(key === 'Enter') {
-          this.inputDescription.blur();
-          this.inputDescription.classList.remove('editing');
-          this.inputDescription.setAttribute('readonly','');
+
+      const editConfirm = () => {
+        this.task.description = this.inputDescription.value;
+        this.apiService.updateTask(this.task)
+          .then(() => {
+            this.inputDescription.classList.remove('editing');
+            this.inputDescription.setAttribute('readonly', '');
+          });
+      };
+
+      this.inputDescription.onkeydown = ({ key, ...event }) => {
+        if (key === 'Enter') {
+          editConfirm();
+        }
+      };
+
+      this.inputDescription.onblur = (ev) => {
+        if(!this.inputDescription.hasAttribute('readonly')){
+          editConfirm();
         }
       };
     }
+
   }
 
   checkTask() {
@@ -75,6 +102,8 @@ export class AppTask extends HTMLElement {
     this.buttonCheck.setAttribute('src', this.pathIconDoubleCheck);
     this.buttonEdit.setAttribute('src', this.pathIconHandOk);
     this.buttonEdit.classList.remove('btn-edit');
+    this.buttonCheck.removeEventListener('click', null);
+    this.buttonEdit.removeEventListener('click', null);
   }
 
   removeTask() {
