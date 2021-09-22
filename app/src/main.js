@@ -40,36 +40,29 @@ export class AppMain extends HTMLElement {
   }
 
   createTask(dataTask) {
-    const task = document.createElement('app-task');
+    const taskElement = document.createElement('app-task');
 
-    task.setAttribute('data-object', JSON.stringify(dataTask));
-    
+    taskElement.setAttribute('data-object', JSON.stringify(dataTask));    
 
     const deadline = document.createElement('span');
     deadline.setAttribute('slot', 'deadline');
     deadline.innerHTML = dataTask.deadline;
 
-    const description = document.createElement('span');
-    description.setAttribute('slot', 'description')
-    description.innerHTML = dataTask.description;
-
     if (dataTask.isComplete) {
-      task.setAttribute('done', '');
+      taskElement.setAttribute('done', '');
       deadline.innerHTML = "Concluído!";
     }
 
-    task.appendChild(description);
-    task.appendChild(deadline);
-    
-    task.style.visibility = 'hidden';
+    taskElement.appendChild(deadline);
+    taskElement.style.visibility = 'hidden';
 
     const mutationObserve = new MutationObserver((mutationList, observe) => {
-      task.shadowRoot.getElementById('task').classList.add('fade');
+      taskElement.shadowRoot.getElementById('task').classList.add('fade');
       for (const mutation of mutationList) {
         if (mutation.type === 'childList') {
           setTimeout(() => {
-            task.style.visibility = 'visible';
-            task.shadowRoot.getElementById('task').classList.add('fade-in');
+            taskElement.style.visibility = 'visible';
+            taskElement.shadowRoot.getElementById('task').classList.add('fade-in');
             mutationObserve.disconnect();
           }, 400);
         }
@@ -80,7 +73,7 @@ export class AppMain extends HTMLElement {
       { childList: true, subtree: true, attributes: true }
     );
 
-    this.shadowRoot.appendChild(task);
+    this.shadowRoot.appendChild(taskElement);
   }
 
 

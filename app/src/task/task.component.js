@@ -13,10 +13,9 @@ export class AppTask extends HTMLElement {
   task;
   apiService;
 
-  constructor(task) {
+  constructor() {
     super();
     this.apiService = new ApiService();
-    this.task = task;
   }
 
   connectedCallback() {
@@ -38,9 +37,8 @@ export class AppTask extends HTMLElement {
     const shadow = this.attachShadow({ mode: 'open' });
     shadow.appendChild(templateContent.cloneNode(true));
 
-    const descriptionTask = this.getAttribute('description');
     this.inputDescription = this.shadowRoot.getElementById('description');
-    this.inputDescription.value = descriptionTask;
+    this.inputDescription.value = this.task.description;
 
     this.buttonCheck = this.shadowRoot.getElementById('check');
     this.buttonCheck ? this.buttonCheck.addEventListener('mouseover', this.checkFxMouseOver.bind(this)) : null;
