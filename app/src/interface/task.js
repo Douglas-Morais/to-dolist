@@ -1,4 +1,4 @@
-export default class Task {
+export default class ITask {
   id;
   description;
   created;

@@ -1,4 +1,4 @@
-import Task from "../interface/task.js";
+import ITask from "../interface/task.js";
 import { API_SERVICE } from "../service/api.service.js";
 
 export class AppTask extends HTMLElement {
@@ -20,7 +20,7 @@ export class AppTask extends HTMLElement {
 
   connectedCallback() {
     const taskObject = JSON.parse(this.getAttribute('data-object'));
-    this.task = new Task(
+    this.task = new ITask(
       taskObject.id,
       taskObject.description,
       taskObject.created,

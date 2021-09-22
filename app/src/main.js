@@ -1,4 +1,4 @@
-import Task from "./interface/task.js";
+import ITask from "./interface/task.js";
 import { API_SERVICE } from "./service/api.service.js";
 
 export class AppMain extends HTMLElement {
@@ -28,7 +28,7 @@ export class AppMain extends HTMLElement {
     const formData = new FormData(ev.target);
     let formProps = Object.fromEntries(formData);
 
-    const dataTask = new Task(
+    const dataTask = new ITask(
       undefined,
       formProps.description.trim(),
       new Date(),
@@ -42,7 +42,7 @@ export class AppMain extends HTMLElement {
   createTask(dataTask) {
     const taskElement = document.createElement('app-task');
 
-    taskElement.setAttribute('data-object', JSON.stringify(dataTask));    
+    taskElement.setAttribute('data-object', JSON.stringify(dataTask));
 
     const deadline = document.createElement('span');
     deadline.setAttribute('slot', 'deadline');
