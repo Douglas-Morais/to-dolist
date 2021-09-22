@@ -89,7 +89,7 @@ export class AppTask extends HTMLElement {
       };
 
       this.inputDescription.onblur = (ev) => {
-        if(!this.inputDescription.hasAttribute('readonly')){
+        if (!this.inputDescription.hasAttribute('readonly')) {
           editConfirm();
         }
       };
@@ -107,9 +107,14 @@ export class AppTask extends HTMLElement {
   }
 
   removeTask() {
-    const elTask = this.shadowRoot.getElementById('task');
-    elTask.classList.add('fade-out');
-    elTask.addEventListener('transitionend', () => this.remove());
+    this.apiService.deleteTask(this.task)
+      .then(() => {
+        const elTask = this.shadowRoot.getElementById('task');
+        elTask.classList.remove('fade-in');
+        elTask.addEventListener('transitionend', () => this.remove());
+      })
+      .catch((err) => console.error(err));
+
   }
 
 }

@@ -49,8 +49,15 @@ export class ApiService {
     });
   }
 
-  deleteTask(taskId) {
-    index = this.dataTasks.findIndex((itemTask) => itemTask.id === taskId);
-    console.warn('API Delete!', index);
+  deleteTask(task) {
+    return new Promise((resolve, reject) => {
+      try {
+        this.dataTasks.splice(this.dataTasks.indexOf(task), 1);
+        resolve(this.dataTasks);
+      } catch (err) {
+        reject(err)
+      }
+
+    });
   }
 }
