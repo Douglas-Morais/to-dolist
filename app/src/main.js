@@ -1,5 +1,5 @@
 import Task from "./interface/task.js";
-import { ApiService } from "./service/api.service.js";
+import { API_SERVICE } from "./service/api.service.js";
 
 export class AppMain extends HTMLElement {
   apiService;
@@ -8,7 +8,7 @@ export class AppMain extends HTMLElement {
 
   constructor() {
     super();
-    this.apiService = new ApiService();
+    this.apiService = API_SERVICE;
     this.apiService.eventEmitter.on(this.apiService.createEventDb, (taskData) => {
       this.createTask(taskData);
     });
@@ -109,5 +109,6 @@ export class AppMain extends HTMLElement {
       .catch((err) => console.error(err));
   }
 }
+
 
 customElements.define('app-main', AppMain);

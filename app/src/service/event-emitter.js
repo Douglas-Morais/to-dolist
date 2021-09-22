@@ -1,4 +1,4 @@
-export class EventEmitter {
+class EventEmitter {
   constructor() {
     this._events = {};
   }
@@ -33,3 +33,5 @@ export class EventEmitter {
     this._events[name].forEach(fireCallbacks);
   }
 }
+
+export const EVENT_EMITTER = new EventEmitter();

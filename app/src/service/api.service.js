@@ -1,14 +1,14 @@
-import { EventEmitter } from "./event-emitter.js";
+import { EVENT_EMITTER } from "./event-emitter.js";
 import { DATAS_FAKE } from "./datafake.const.js";
 
-export class ApiService {
+class ApiService {
   eventEmitter;
   updateEventDb = 'updateEventDb';
   createEventDb = 'createEventDb';
 
   constructor() {
     this.dataTasks = DATAS_FAKE;
-    this.eventEmitter = new EventEmitter();
+    this.eventEmitter = EVENT_EMITTER;
   }
 
   handleDbEvent() {
@@ -61,3 +61,5 @@ export class ApiService {
     });
   }
 }
+
+export const API_SERVICE = new ApiService();

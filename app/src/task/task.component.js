@@ -1,5 +1,5 @@
 import Task from "../interface/task.js";
-import { ApiService } from "../service/api.service.js";
+import { API_SERVICE } from "../service/api.service.js";
 
 export class AppTask extends HTMLElement {
   pathIconDoubleCheck = '../assets/icons/check-double-solid.svg';
@@ -15,7 +15,7 @@ export class AppTask extends HTMLElement {
 
   constructor() {
     super();
-    this.apiService = new ApiService();
+    this.apiService = API_SERVICE;
   }
 
   connectedCallback() {
