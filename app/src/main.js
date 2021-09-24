@@ -9,9 +9,6 @@ export class AppMain extends HTMLElement {
   constructor() {
     super();
     this.apiService = API_SERVICE;
-    this.apiService.eventEmitter.on(this.apiService.createEventDb, (taskData) => {
-      this.createTask(taskData);
-    });
     console.log('App Initialized!');
   }
 
@@ -32,21 +29,27 @@ export class AppMain extends HTMLElement {
       undefined,
       formProps.description.trim(),
       new Date(),
-      formProps.deadline
+      new Date(formProps.deadline)
     );
 
     this.formTask.reset();
-    this.apiService.createTask(dataTask);
+    this.apiService.createTask(dataTask)
+      .then((task) => {
+        this.createTaskIntoDom(task);
+      })
+      .catch((err) => {
+        alert('Houve um erro ao gravas os dados no banco de dados!');
+      });
   }
 
-  createTask(dataTask) {
+  createTaskIntoDom(dataTask) {
     const taskElement = document.createElement('app-task');
 
     taskElement.setAttribute('data-object', JSON.stringify(dataTask));
 
     const deadline = document.createElement('span');
     deadline.setAttribute('slot', 'deadline');
-    deadline.innerHTML = dataTask.deadline;
+    deadline.innerHTML = dataTask.deadline.toLocaleDateString()
 
     if (dataTask.isComplete) {
       taskElement.setAttribute('done', '');
@@ -80,7 +83,7 @@ export class AppMain extends HTMLElement {
   updateTasksIntoDom() {
     this.apiService.readTasks()
       .then((serverTasks) => {
-        const createTask = (data, index) => {
+        const createTaskElement = (data, index) => {
           const task = document.createElement('app-task');
 
           task.setAttribute('data-object', JSON.stringify(data));
@@ -102,8 +105,7 @@ export class AppMain extends HTMLElement {
           task.appendChild(deadline);
           return task;
         }
-
-        Array.from(serverTasks, createTask).forEach((task) => this.shadowRoot.appendChild(task));
+        Array.from(serverTasks, createTaskElement).forEach((task) => this.shadowRoot.appendChild(task));
       })
       .catch((err) => console.error(err));
   }

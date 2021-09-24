@@ -74,7 +74,8 @@ export class AppTask extends HTMLElement {
       const editConfirm = () => {
         this.task.description = this.inputDescription.value;
         this.apiService.updateTask(this.task)
-          .then(() => {
+          .then((updatedTask) => {
+            console.warn(updatedTask);
             this.inputDescription.classList.remove('editing');
             this.inputDescription.setAttribute('readonly', '');
           });
