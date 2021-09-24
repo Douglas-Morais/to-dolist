@@ -1,64 +1,50 @@
 import { EVENT_EMITTER } from "./event-emitter.js";
-import { DATAS_FAKE } from "./datafake.const.js";
+import { DB_INDEXEDDB } from "../storage/indexedDb.js";
+import { DB_MEMORY } from "../storage/memoryDb.js";
 
 class ApiService {
+  updateEventDbName = 'updateEventDb';
+  createEventDbName = 'createEventDb';
   eventEmitter;
-  updateEventDb = 'updateEventDb';
-  createEventDb = 'createEventDb';
+  #dbService;
 
   constructor() {
-    this.dataTasks = DATAS_FAKE;
     this.eventEmitter = EVENT_EMITTER;
+    this.#dbService = window.indexedDB ? DB_INDEXEDDB : DB_MEMORY;
+    this.showMessageStoreDataStatus();
   }
 
-  handleDbEvent() {
-    console.log('disparei!')
-  }
-
-  createTask(task) {
-    return new Promise((resolve, reject) => {
-      this.dataTasks.push(task);
-      if (this.dataTasks.indexOf(task) !== -1) {
-        task.id = this.dataTasks.indexOf(task);
-        this.eventEmitter.emit(this.createEventDb, task);
-        resolve();
+  showMessageStoreDataStatus() {
+    setTimeout(() => {
+      if (window.localStorage.getItem('storageMessage') === 'true') return
+      if (window.indexedDB) {
+        alert('Suas tarefas serão gravadas automaticamente para quando retornar!\n');
       } else {
-        reject(new Error('Writing in DB unsuccessful!'));
+        alert(`Atualize seu browser!
+        Browser imcompatível para gravação das tarefas.
+        Ao recarregar a página os dados serão perdidos!
+        `);
       }
-    });
+      window.localStorage.setItem('storageMessage', true);
+    }, 1000);
   }
 
   readTasks() {
-    return new Promise((resolve, reject) => {
-      if (this.dataTasks) {
-        resolve(this.dataTasks);
-      }
-      reject(new Error('Data Empty!'));
-    });
+    return this.#dbService.readAllTasks();
   }
 
-  updateTask(task) {
-    return new Promise((resolve, reject) => {
-      try {
-        this.dataTasks[task.id] = task;
-        resolve();
-      } catch (err) {
-        reject(err)
-      }
 
-    });
+  createTask(task) {
+    return this.#dbService.insertTask(task);
+  }
+
+
+  updateTask(task) {
+    return this.#dbService.updateTask(task);
   }
 
   deleteTask(task) {
-    return new Promise((resolve, reject) => {
-      try {
-        this.dataTasks.splice(this.dataTasks.indexOf(task), 1);
-        resolve(this.dataTasks);
-      } catch (err) {
-        reject(err)
-      }
-
-    });
+    return this.#dbService.deleteTask(task);
   }
 }
 
