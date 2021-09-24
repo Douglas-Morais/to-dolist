@@ -7,14 +7,8 @@ class IndexedDB {
 
   constructor() { }
 
-  isBrowserCompatible() {
-    if (!window.indexedDB) return false;
-    return true
-  }
-
   async openDb() {
     return await new Promise((res, rej) => {
-      if (!this.isBrowserCompatible()) rej('Browser Imcompatible!');
       const req = window.indexedDB.open(this.#DB_NAME, this.#DB_VERSION);
       req.onsuccess = (ev) => {
         const dbConnection = req.result;
@@ -33,6 +27,33 @@ class IndexedDB {
         objectStore.createIndex("created", "created", { unique: false });
         objectStore.createIndex("deadline", "deadline", { unique: false });
       };
+    });
+  }
+
+  async readAllTasks() {
+    return await new Promise((res, rej) => {
+      this.openDb()
+        .then((dbConnection) => {
+          const transaction = dbConnection.transaction(this.#DB_STORE_NAME, 'readwrite');
+          transaction.oncomplete = (ev) => {
+            res();
+          };
+          transaction.onerror = (ev) => {
+            rej(ev.target.error)
+          };
+
+          const objectStore = transaction.objectStore(this.#DB_STORE_NAME);
+          const request = objectStore.getAll();
+          request.onsuccess = (ev) => {
+            let tasks = ev.target.result;
+            const requestKeys = objectStore.getAllKeys();
+            requestKeys.onsuccess = (ev) => {
+              tasks.forEach((task, index) => task.id = ev.target.result[index]);
+              res(tasks);
+            };
+          };
+        })
+        .catch((err) => console.error(err));
     });
   }
 
