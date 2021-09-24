@@ -16,8 +16,38 @@ export class AppMain extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.listTask = document.getElementById('list-tasks');
     this.formTask = document.forms.namedItem('formTask');
+    this.inputDeadline = document.getElementById('input-deadline');
+    this.inputDeadline.setAttribute('min', new Date().toISOString().split('T')[0]);
+    this.inputDescription = document.getElementById('input-description');
+    this.buttonSubmit = document.getElementById('submit');
     this.formTask.addEventListener('submit', this.submitTask.bind(this));
+    this.formTask.addEventListener('input', this.validateDataInputs.bind(this));
     this.updateTasksIntoDom();
+  }
+
+  validateDataInputs(ev) {
+    if(ev.target.name === 'description') {
+      if(ev.target.checkValidity()){
+        ev.target.parentNode.classList = 'form-control success';
+      }else {
+        ev.target.parentNode.classList = 'form-control error';
+        ev.target.parentNode.querySelector('small').innerHTML = 'Mínimo 3 caracteres e no máximo 40';
+      }
+    }
+    if(ev.target.name === 'deadline') {
+      if(ev.target.checkValidity()){
+        ev.target.parentNode.classList = 'form-control success';
+      }else {
+        ev.target.parentNode.classList = 'form-control error';
+        ev.target.parentNode.querySelector('small').innerHTML = 'A fim do prazo deverá ser no mínimo a data de hoje';
+      }
+    }
+
+    if (this.formTask.checkValidity()) {
+      this.buttonSubmit.removeAttribute('disabled');
+    } else {
+      this.buttonSubmit.setAttribute('disabled', '');
+    }
   }
 
   submitTask(ev) {
@@ -32,13 +62,17 @@ export class AppMain extends HTMLElement {
       new Date(formProps.deadline)
     );
 
+    this.buttonSubmit.setAttribute('disabled', '');
     this.formTask.reset();
+    this.inputDescription.parentNode.classList = 'form-control';
+    this.inputDeadline.parentNode.classList = 'form-control';
+    
     this.apiService.createTask(dataTask)
       .then((task) => {
         this.createTaskIntoDom(task);
       })
       .catch((err) => {
-        alert('Houve um erro ao gravas os dados no banco de dados!');
+        alert('Houve um erro ao gravar os dados no banco de dados!');
       });
   }
 
@@ -89,11 +123,12 @@ export class AppMain extends HTMLElement {
           task.setAttribute('data-object', JSON.stringify(data));
 
           const deadline = document.createElement('span');
-          deadline.setAttribute('slot', 'deadline')
-          deadline.innerHTML = data.deadline?.toLocaleDateString();
+          deadline.setAttribute('slot', 'deadline');
+
+          deadline.innerHTML = `Concluir até ${new Date(data.deadline).toLocaleDateString()}`;
 
           const description = document.createElement('span');
-          description.setAttribute('slot', 'description')
+          description.setAttribute('slot', 'description');
           description.innerHTML = data.description;
 
           if (data.isComplete) {

@@ -29,27 +29,31 @@
       <img id="brand" src="../assets/icons/icon-todolist@64.png" alt="Icone To-Do List">
     </div>
 
-    <div class="elements-center-x w-100 my">
+    <div class="elements-center-x w-100">
       <div id="field-base" class="grid-container rounded">
 
         <form name="formTask">
           <div class="form-list">
-            <div class="col-12 pb">
+            <div class="form-control">
               <label for="input-deadline">Qual o prazo final?</label>
               <input id="input-deadline" type="date" placeholder="Insira sua tarefa..." name="deadline"
-                autocomplete="off" />
+                autocomplete="off" required />
+              <small>Error message</small>
             </div>
 
-            <div class="col-12 pb">
-              <label for="input-task">O que devo fazer até lá?</label>
-              <div class="input-container">
-                <img src="../assets/icons/plus-square-solid.svg" class="input-img">
-                <input id="input-task" type="text" placeholder="Insira sua tarefa..." name="description" autocomplete="off" />
-              </div>
+
+            <div class="form-control">
+              <label for="input-description">O que devo fazer até lá?</label>
+              <input id="input-description" type="text" placeholder="Insira sua tarefa..." name="description"
+                autocomplete="off" minlength="3" maxlength="40" required />
+              <div class="fas fa-times-circle"></div>
+              <div class="fas fa-check-circle"></div>
+              <small>Error message</small>
             </div>
+
           </div>
           <div class="col-12">
-            <button type="submit">Criar</button>
+            <button id="submit" type="submit" disabled>Criar</button>
           </div>
         </form>
 
@@ -67,7 +71,8 @@
                 <span id="deadline" class="tooltiptext">
                   <slot name="deadline">15/10/2021</slot>
                 </span>
-                <input id="description" name="description" type="text" class="input-plain-text" autocomplete="off" readonly />
+                <input id="description" name="description" type="text" class="input-plain-text" autocomplete="off"
+                  readonly />
               </div>
               <div class="col-1 elements-center-xy">
                 <img id="remove" src="../assets/icons/minus-square-solid.svg" alt="excluir" height="20"
@@ -87,4 +92,5 @@
     </div>
   </div>
 </body>
+
 </html>

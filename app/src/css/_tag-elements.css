@@ -5,6 +5,97 @@ body {
   background: linear-gradient(45deg, var(--main-blue-dark) 0%, var(--main-blue-light) 100%);
 }
 
+.form-control {
+  position: relative;
+  margin-bottom: 5px;
+}
+
+.form-control.success input {
+  border: 1px solid var(--main-green);
+}
+
+.form-control.error input {
+  border: 1px solid var(--main-red);
+}
+
+.form-control.success input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  background-image: url('../../assets/icons/calendar-check-solid.svg');
+  opacity: 1;
+}
+
+.form-control.error input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  background-image: url('../../assets/icons/calendar-times-solid.svg');
+  opacity: 1;
+}
+
+.form-control label {
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.form-control div {
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  right: 10px;
+  bottom: 36px;
+}
+
+.form-control.success div.fa-check-circle {
+  visibility: visible;
+}
+
+.form-control.error div.fa-times-circle {
+  visibility: visible;
+}
+
+.form-control small {
+  visibility: hidden;
+  color: var(--main-red);
+}
+
+.form-control.error small {
+  visibility: visible;
+}
+
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  background-image: url('../../assets/icons/calendar-alt-solid.svg');
+  opacity: .75;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  background-image: url('../../assets/icons/calendar-alt-solid.svg');
+  opacity: .75;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1
+}
+
+
+
+[class*="fa-"]{
+  visibility: hidden;
+}
+
+.fa-times-circle {
+  height: 20px;
+  width: 20px;
+  background: url('../../assets/icons/times-circle-solid.svg');
+}
+
+.fa-check-circle {
+  height: 20px;
+  width: 20px;
+  background: url('../../assets/icons/check-circle-solid.svg');
+}
+
 label {
   font-size: 1rem;
   color: var(--main-white);
@@ -20,6 +111,10 @@ input {
   transition: box-shadow 150ms ease-out;
   font-size: 1rem;
   text-transform: capitalize;
+}
+
+input[type="text"] {
+  padding-right: 40px !important;
 }
 
 input[class*="input-"] {
@@ -76,14 +171,31 @@ hr {
 button {
   display: inline-block;
   cursor: pointer;
-  background-color: var(--main-blue-dark);
+  background-color: var(--main-blue-light);
+  opacity: .9;
   border-radius: 5px;
   color: white;
-  padding: 10px 20px;
+  padding: 8px 20px;
   text-align: center;
   font-size: 1rem;
+  border: 1px solid var(--main-white);
+  transition: box-shadow 300ms ease-out;
+  transition: opacity 150ms ease-out;
 }
 
 button:hover {
-  box-shadow: 0px 0px 10px var(--main-blue-light);
+  box-shadow: 0px 0px 12px var(--main-blue-light);
+  opacity: 1;
+}
+
+button[disabled] {
+  filter: grayscale(1);
+  -webkit-filter: grayscale(1);
+  border: none;
+  opacity: .7;  
+}
+
+button[disabled]:hover {
+  cursor: default;
+  box-shadow: none;
 }

@@ -7,3 +7,39 @@
 .fade-in {
   opacity: 1;
 }
+
+.fade-out {
+  opacity: 0;
+}
+
+.fade-out {
+  animation: fadeOut 300ms ease-in;
+  -webkit-animation: fadeOut 300ms ease-in;
+  -moz-animation: fadeOut 300ms ease-in;
+  -o-animation: fadeOut 300ms ease-in;
+  -ms-animation: fadeOut 300ms ease-in;
+}
+@keyframes fadeOut {
+  0% {opacity:1;}
+  100% {opacity:0;}
+}
+
+@-moz-keyframes fadeOut {
+  0% {opacity:1;}
+  100% {opacity:0;}
+}
+
+@-webkit-keyframes fadeOut {
+  0% {opacity:1;}
+  100% {opacity:0;}
+}
+
+@-o-keyframes fadeOut {
+  0% {opacity:1;}
+  100% {opacity:0;}
+}
+
+@-ms-keyframes fadeOut {
+  0% {opacity:1;}
+  100% {opacity:0;}
+}

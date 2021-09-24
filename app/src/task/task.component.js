@@ -75,7 +75,6 @@ export class AppTask extends HTMLElement {
         this.task.description = this.inputDescription.value;
         this.apiService.updateTask(this.task)
           .then((updatedTask) => {
-            console.warn(updatedTask);
             this.inputDescription.classList.remove('editing');
             this.inputDescription.setAttribute('readonly', '');
           });
@@ -109,14 +108,12 @@ export class AppTask extends HTMLElement {
     this.apiService.deleteTask(this.task)
       .then(() => {
         const elTask = this.shadowRoot.getElementById('task');
-        elTask.classList.remove('fade-in');
-        elTask.addEventListener('transitionend', () => this.remove());
+        elTask.classList.add('fade-out');
+        console.warn('fade out')
+        elTask.addEventListener('animationend', () => this.remove());
       })
       .catch((err) => console.error(err));
-
   }
-
 }
-
 
 customElements.define('app-task', AppTask);
