@@ -130,10 +130,7 @@ class IndexedDB {
           };
 
           const objectStore = transaction.objectStore(this.#DB_STORE_NAME);
-          const request = objectStore.delete(task.id);
-          request.onsuccess = (ev) => {
-            console.warn(ev);
-          };
+          objectStore.delete(task.id);
         })
         .catch((err) => console.error(err));
     });
