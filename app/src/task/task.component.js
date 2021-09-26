@@ -136,7 +136,6 @@ export class AppTask extends HTMLElement {
       .then(() => {
         const elTask = this.shadowRoot.getElementById('task');
         elTask.classList.add('fade-out');
-        console.warn('fade out')
         elTask.addEventListener('animationend', () => this.remove());
       })
       .catch((err) => console.error(err));

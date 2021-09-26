@@ -65,3 +65,64 @@
 .task-check-hover {
   background-color: rgba(0, 0, 0, 0.25);
 }
+
+.task-control {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto auto;
+  width: 100%;
+  margin: 8px 0px;
+  padding: 8px 0px;
+  background-color: rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+}
+
+.task-control img {
+  justify-self: center;
+  align-self: center;
+  height: 20px;
+}
+
+.task-control .edit {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.task-control .input {
+  grid-column: 2/11;
+  grid-row: 1;
+}
+
+.task-control .remove {
+  grid-column: 11;
+  grid-row: 1;
+}
+
+.task-control .check {
+  grid-column: 12;
+  grid-row: 1;
+}
+
+.task-control .tags {
+  grid-column: 1/13;
+  grid-row: 2;
+}
+
+.task-control .tags ul {
+  font-size: .85rem;
+  display: flex;
+  justify-content: space-between
+}
+
+.task-control .tags ul li {
+  background-color: rgba(0, 0, 0, 0.25);
+  margin: 0px 5px;
+  padding: 2px 16px;
+  border-radius: 16px;
+  color: var(--main-yellow);
+}
+
+.task-control .tags ul li:nth-child(2){
+  color: var(--main-red);
+}
+

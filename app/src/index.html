@@ -64,28 +64,26 @@
           <template id="task-template">
             <link rel="stylesheet" href="./style.css">
             <form name="formEditTask" id="formEditTask">
-              <div id="task" class="row pb">
-                <div class="col-1 elements-center-xy">
-                  <img id="edit" src="../assets/icons/pen-alt-solid.svg" alt="Editar" height="20" class="btn-edit" />
-                </div>
-                <div class="col-9 tooltip">
+              <div id="task" class="task-control">
+                <img class="edit" id="edit" src="../assets/icons/pen-alt-solid.svg" alt="Editar" />
+                <div class="input tooltip">
                   <span id="deadline" class="tooltiptext">
                     <slot name="deadline">15/10/2021</slot>
                   </span>
                   <input id="description" name="description" type="text" class="input-plain-text" autocomplete="off"
                     minlength="3" maxlength="40" readonly required />
                 </div>
-                <div class="col-1 elements-center-xy">
-                  <img id="remove" src="../assets/icons/minus-square-solid.svg" alt="excluir" height="20"
-                    class="btn-remove" />
-                </div>
-                <div class="col-1 elements-center-xy">
-                  <img id="check" src="../assets/icons/check-solid.svg" alt="concluir" height="20" class="btn-check" />
+                <img id="remove" class="remove" src="../assets/icons/minus-square-solid.svg" alt="excluir" />
+                <img id="check" class="check" src="../assets/icons/check-solid.svg" alt="concluir" />
+                <div class="tags">
+                  <ul>
+                    <li><slot name="tag">Tag</slot></li>
+                    <li><slot name="priority">Priority</slot></li>
+                  </ul>
                 </div>
               </div>
             </form>
           </template>
-
 
           <app-main></app-main>
 
