@@ -2,26 +2,24 @@ import ITask from "./interface/task.js";
 import { API_SERVICE } from "./service/api.service.js";
 
 export class AppMain extends HTMLElement {
-  apiService;
-  formTask;
-  listTask;
+  #apiService;
+  #formTask;
 
   constructor() {
     super();
-    this.apiService = API_SERVICE;
+    this.#apiService = API_SERVICE;
     console.log('App Initialized!');
   }
 
   connectedCallback() {
     this.attachShadow({ mode: 'open' });
-    this.listTask = document.getElementById('list-tasks');
-    this.formTask = document.forms.namedItem('formTask');
+    this.#formTask = document.forms.namedItem('formTask');
     this.inputDeadline = document.getElementById('input-deadline');
     this.inputDeadline.setAttribute('min', new Date().toISOString().split('T')[0]);
     this.inputDescription = document.getElementById('input-description');
     this.buttonSubmit = document.getElementById('submit');
-    this.formTask.addEventListener('submit', this.submitTask.bind(this));
-    this.formTask.addEventListener('input', this.validateDataInputs.bind(this));
+    this.#formTask.addEventListener('submit', this.submitTask.bind(this));
+    this.#formTask.addEventListener('input', this.validateDataInputs.bind(this));
     this.updateTasksIntoDom();
   }
 
@@ -43,7 +41,7 @@ export class AppMain extends HTMLElement {
       }
     }
 
-    if (this.formTask.checkValidity()) {
+    if (this.#formTask.checkValidity()) {
       this.buttonSubmit.removeAttribute('disabled');
     } else {
       this.buttonSubmit.setAttribute('disabled', '');
@@ -63,11 +61,11 @@ export class AppMain extends HTMLElement {
     );
 
     this.buttonSubmit.setAttribute('disabled', '');
-    this.formTask.reset();
+    this.#formTask.reset();
     this.inputDescription.parentNode.classList = 'form-control';
     this.inputDeadline.parentNode.classList = 'form-control';
     
-    this.apiService.createTask(dataTask)
+    this.#apiService.createTask(dataTask)
       .then((task) => {
         this.createTaskIntoDom(task);
       })
@@ -115,7 +113,7 @@ export class AppMain extends HTMLElement {
 
 
   updateTasksIntoDom() {
-    this.apiService.readTasks()
+    this.#apiService.readTasks()
       .then((serverTasks) => {
         const createTaskElement = (data, index) => {
           const task = document.createElement('app-task');
