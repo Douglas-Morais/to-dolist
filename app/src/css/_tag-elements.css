@@ -80,7 +80,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 
 
-[class*="fa-"]{
+[class*="fa-"] {
   visibility: hidden;
 }
 
@@ -117,15 +117,6 @@ input[type="text"] {
   padding-right: 40px !important;
 }
 
-input[class*="input-"] {
-  background-color: transparent;
-  border-bottom: 1px solid var(--main-yellow);
-}
-
-input[class*="input-"]:focus {
-  box-shadow: none;
-}
-
 input[checked] {
   border-bottom-color: var(--main-green);
   text-decoration: line-through;
@@ -146,15 +137,32 @@ input:focus {
 
 .input-plain-text {
   text-align: left;
+  border-bottom: 1px solid var(--main-yellow);
+  box-shadow: none;
+  background: transparent;
   color: var(--main-yellow);
 }
 
+.input-plain-text:focus {
+  box-shadow: none;
+}
+
+.input-plain-text.success {
+  border-bottom: 1px solid var(--main-green);
+  box-shadow: 0px 0px 17px 2px var(--main-green);
+}
+
+.input-plain-text.error {
+  border-bottom: 1px solid var(--main-red);
+  box-shadow: 0px 0px 15px 2px var(--main-red);
+}
+
 .editing {
-  color: var(--main-white) !important;
-  border-bottom-color: var(--main-white) !important;
-  border-top: 1px solid var(--main-white) !important;
-  font-style: italic !important;
-  background-color: rgba(0,0,0,.1) !important;
+  color: var(--main-white);
+  border-bottom-color: var(--main-white);
+  border-top: 1px solid var(--main-white);
+  font-style: italic;
+  background-color: rgba(0, 0, 0, .1);
 }
 
 ::placeholder {
@@ -192,7 +200,7 @@ button[disabled] {
   filter: grayscale(1);
   -webkit-filter: grayscale(1);
   border: none;
-  opacity: .7;  
+  opacity: .7;
 }
 
 button[disabled]:hover {

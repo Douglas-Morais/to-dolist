@@ -12,6 +12,7 @@ export class AppTask extends HTMLElement {
 
   #task;
   #apiService;
+  #formEditTask;
 
   constructor() {
     super();
@@ -27,8 +28,10 @@ export class AppTask extends HTMLElement {
       taskObject.deadline
     );
     this.build();
+    this.#formEditTask = this.shadowRoot.getElementById('formEditTask');
+    this.#formEditTask.addEventListener('input', this.validateFormEditTask.bind(this));
+    this.#formEditTask.addEventListener('submit', this.submitFormEditTask.bind(this));
   }
-
 
   build() {
     const template = document.getElementById('task-template');
@@ -65,32 +68,58 @@ export class AppTask extends HTMLElement {
 
   editTask() {
     if (this.#inputDescription.hasAttribute('checked')) return
+    const oldInputValue = this.#inputDescription.value;
 
     this.#inputDescription.removeAttribute('readonly');
     this.#inputDescription.select();
-
-    this.#inputDescription.classList.add('editing');
-
-    const editConfirm = () => {
-      this.#task.description = this.#inputDescription.value;
-      this.#apiService.updateTask(this.#task)
-        .then((updatedTask) => {
-          this.#inputDescription.classList.remove('editing');
-          this.#inputDescription.setAttribute('readonly', '');
-        });
-    };
+    this.#inputDescription.classList = 'input-plain-text editing';
 
     this.#inputDescription.onkeydown = ({ key, ...event }) => {
-      if (key === 'Enter') {
-        editConfirm();
+      if (key === 'Escape') {
+        this.#inputDescription.setSelectionRange(0, 0, 'none');
+        this.#inputDescription.blur();
       }
     };
 
     this.#inputDescription.onblur = (ev) => {
-      if (!this.#inputDescription.hasAttribute('readonly')) {
-        editConfirm();
-      }
+      if (this.#inputDescription.hasAttribute('readonly')) return
+
+      this.#inputDescription.value = oldInputValue;
+      this.#inputDescription.classList = 'input-plain-text';
+      this.#inputDescription.setAttribute('readonly', '');
     };
+  }
+
+  validateFormEditTask(evInput) {
+    if (evInput.target.name === 'description') {
+      if (evInput.target.checkValidity()) {
+        evInput.target.classList.add('success');
+        evInput.target.classList.remove('error');
+      } else {
+        evInput.target.classList.remove('success');
+        evInput.target.classList.add('error');
+      }
+    }
+  }
+
+  submitFormEditTask(evSubmit) {
+    evSubmit.preventDefault();
+    const formData = new FormData(evSubmit.target);
+    let formProps = Object.fromEntries(formData);
+
+    const dataTask = new ITask(
+      undefined,
+      formProps.description.trim(),
+      new Date(),
+      new Date(formProps.deadline)
+    );
+
+    this.#task.description = this.#inputDescription.value;
+    this.#apiService.updateTask(this.#task)
+      .then((updatedTask) => {
+        this.#inputDescription.classList = 'input-plain-text';
+        this.#inputDescription.setAttribute('readonly', '');
+      });
   }
 
   checkTask() {
