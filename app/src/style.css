@@ -32,7 +32,6 @@
 .list {
   grid-row: 3;
   overflow-y: auto;
-  padding-top: 38px;
 }
 
 

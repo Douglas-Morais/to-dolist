@@ -28,6 +28,11 @@ main {
   
 }
 
+app-main {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
 .form-control {
   position: relative;
   margin-bottom: 2px;
