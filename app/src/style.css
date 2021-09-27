@@ -6,15 +6,35 @@
 }
 
 #field-base {
-  min-width: 350px;
-  width: 650px;
-  max-height: 70%;
-  height: 85vh;
+  width: 100%;
+  height: 100%;
+  max-width: 650px;
   background-color: rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(20px);
-  padding: 20px;
-  margin: 10px;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows:
+    [row-start] min-content [row-start] min-content [row-start] auto [row-end];
 }
+
+.form {
+  grid-row: 1;
+}
+
+.title {
+  grid-row: 2;
+  color: var(--main-white);
+  text-align: center;
+  padding: 10px 0px;
+}
+
+.list {
+  grid-row: 3;
+  overflow-y: auto;
+  padding-top: 38px;
+}
+
 
 #brand {
   height: 50px;
@@ -37,11 +57,7 @@
   right: 32px;
 }
 
-.list-tasks {
-  overflow-y: auto;
-  padding-top: 34px;
-  margin-top: 0px;
-}
+
 
 [class*="btn-"] {
   cursor: pointer;
@@ -71,8 +87,8 @@
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: auto auto;
   width: 100%;
-  margin: 8px 0px;
-  padding: 8px 0px;
+  margin: 5px 0px;
+  padding: 5px 0px;
   background-color: rgba(0, 0, 0, 0.25);
   border-radius: 5px;
 }
@@ -81,6 +97,7 @@
   justify-self: center;
   align-self: center;
   height: 20px;
+  cursor: pointer;
 }
 
 .task-control .edit {
@@ -88,7 +105,7 @@
   grid-row: 1;
 }
 
-.task-control .input {
+.task-control input {
   grid-column: 2/11;
   grid-row: 1;
 }
@@ -110,8 +127,10 @@
 
 .task-control .tags ul {
   font-size: .85rem;
+  text-align: center;
   display: flex;
-  justify-content: space-between
+  justify-content: space-between;
+  align-items: center;
 }
 
 .task-control .tags ul li {

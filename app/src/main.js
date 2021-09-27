@@ -123,7 +123,7 @@ export class AppMain extends HTMLElement {
           const deadline = document.createElement('span');
           deadline.setAttribute('slot', 'deadline');
 
-          deadline.innerHTML = `Concluir até ${new Date(data.deadline).toLocaleDateString()}`;
+          deadline.innerHTML = new Date(data.deadline).toLocaleDateString();
 
           const description = document.createElement('span');
           description.setAttribute('slot', 'description');
