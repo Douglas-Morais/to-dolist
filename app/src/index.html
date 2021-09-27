@@ -31,11 +31,22 @@
   <main>
     <div id="field-base" class="rounded">
       <form name="formTask" class="form">
-        <div class="form-control">
-          <label for="input-deadline">Qual o prazo final?</label>
-          <input id="input-deadline" type="date" placeholder="Insira sua tarefa..." name="deadline" autocomplete="off"
-            required />
-          <small>Error message</small>
+        <div class="form-inline">
+          <div class="form-control">
+            <label for="input-deadline">Qual o prazo final?</label>
+            <input id="input-deadline" type="date" name="deadline" autocomplete="off" required />
+            <small>Error message</small>
+          </div>
+          <div class="form-control">
+            <label for="input-deadline">Prioridade</label>
+            <select name="priorityKey">
+              <option value="1">Urgente</option>
+              <option value="2">Importante</option>
+              <option value="3" selected>Normal</option>
+              <option value="4">Adiável</option>
+            </select>
+
+          </div>
         </div>
         <div class="form-control">
           <label for="input-description">O que devo fazer até lá?</label>
@@ -51,14 +62,14 @@
       <h2 class="title">Lista de tarefas</h2>
 
       <div id="list-tasks" class="list">
-        
+
         <template id="task-template">
           <link rel="stylesheet" href="./style.css">
           <form name="formEditTask" id="formEditTask">
             <div id="task" class="task-control">
               <img class="edit" id="edit" src="../assets/icons/pen-alt-solid.svg" alt="Editar" />
               <input id="description" name="description" type="text" class="input-plain-text" autocomplete="off"
-                  minlength="3" maxlength="40" readonly required />
+                minlength="3" maxlength="40" readonly required />
               <img id="remove" class="remove" src="../assets/icons/minus-square-solid.svg" alt="excluir" />
               <img id="check" class="check" src="../assets/icons/check-solid.svg" alt="concluir" />
               <div class="tags">
@@ -70,7 +81,7 @@
                     <slot name="deadline">deadline</slot>
                   </li>
                   <li>
-                    <slot name="priority">Priority</slot>
+                    <slot name="priorityKey">Priority</slot>
                   </li>
                 </ul>
               </div>

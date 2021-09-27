@@ -1,8 +1,10 @@
-import ITask from "../interface/task.js";
+import ITask from '../interface/task.js';
 
 class IndexedDB {
   #DB_NAME = 'to-Do-immersion42';
-  #DB_STORE_NAME = 'tasks';
+  #DB_STORE_TASK = 'tasks';
+  #DB_STORE_TAGS = 'tags';
+  #DB_STORE_PRIORITIES = 'priorities';
   #DB_VERSION = 1;
 
   constructor() { }
@@ -15,17 +17,29 @@ class IndexedDB {
         res(dbConnection);
       };
 
-      req.onerror = function (ev) {
+      req.onerror = (ev) => {
         rej('openDb:', ev.target.errorCode);
       };
 
-      req.onupgradeneeded = function (ev) {
+      req.onupgradeneeded = (ev) => {
         const store = ev.currentTarget.result;
 
-        let objectStore = store.createObjectStore('tasks', { autoIncrement: true });
-        objectStore.createIndex("description", "description", { unique: true });
-        objectStore.createIndex("created", "created", { unique: false });
-        objectStore.createIndex("deadline", "deadline", { unique: false });
+        const taskStore = store.createObjectStore(this.#DB_STORE_TASK, { autoIncrement: true });
+        taskStore.createIndex('description', 'description', { unique: true });
+        taskStore.createIndex('created', 'created', { unique: false });
+        taskStore.createIndex('deadline', 'deadline', { unique: false });
+        taskStore.createIndex('priorityKey', 'priorityKey', { unique: false });
+
+        const tagStore = store.createObjectStore(this.#DB_STORE_TAGS, { autoIncrement: true });
+        tagStore.createIndex('description', 'description', { unique: true });
+
+        const priorityStore = store.createObjectStore(this.#DB_STORE_PRIORITIES, { autoIncrement: true });
+        priorityStore.createIndex('description', 'description', { unique: true });
+
+        priorityStore.add({ description: 'Urgente' });
+        priorityStore.add({ description: 'Importante' });
+        priorityStore.add({ description: 'Normal' });
+        priorityStore.add({ description: 'Adiável' });
       };
     });
   }
@@ -34,7 +48,7 @@ class IndexedDB {
     return await new Promise((res, rej) => {
       this.openDb()
         .then((dbConnection) => {
-          const transaction = dbConnection.transaction(this.#DB_STORE_NAME, 'readwrite');
+          const transaction = dbConnection.transaction(this.#DB_STORE_TASK, 'readonly');
           transaction.oncomplete = (ev) => {
             res();
           };
@@ -42,7 +56,7 @@ class IndexedDB {
             rej(ev.target.error)
           };
 
-          const objectStore = transaction.objectStore(this.#DB_STORE_NAME);
+          const objectStore = transaction.objectStore(this.#DB_STORE_TASK);
           const request = objectStore.getAll();
           request.onsuccess = (ev) => {
             let tasks = ev.target.result;
@@ -57,13 +71,40 @@ class IndexedDB {
     });
   }
 
+  async getPriorityDescription(key) {
+    return await new Promise((res, rej) => {
+      this.openDb()
+        .then((dbConnection) => {
+          const transaction = dbConnection.transaction(this.#DB_STORE_PRIORITIES, 'readonly');
+          transaction.oncomplete = (ev) => {
+            res();
+          };
+          transaction.onerror = (ev) => {
+            rej(ev.target.error)
+          };
+
+          const objectStore = transaction.objectStore(this.#DB_STORE_PRIORITIES);
+          objectStore.openCursor().onsuccess = (ev) => {
+            let cursor = ev.target.result;
+            if(cursor) {
+              cursor.key == key
+              ? res(cursor.value.description)
+              : cursor.continue();
+            }
+          }
+        })
+        .catch((err) => console.error(err));
+    });
+    
+  }
+
   async insertTask(task) {
     return await new Promise((res, rej) => {
       if (!task instanceof ITask) { rej(new TypeError('Data is not of type ITask')) };
 
       this.openDb()
         .then((dbConnection) => {
-          const transaction = dbConnection.transaction(this.#DB_STORE_NAME, 'readwrite');
+          const transaction = dbConnection.transaction(this.#DB_STORE_TASK, 'readwrite');
           transaction.oncomplete = (ev) => {
             res(task);
           };
@@ -71,12 +112,13 @@ class IndexedDB {
             rej(ev.target.error)
           };
 
-          const objectStore = transaction.objectStore(this.#DB_STORE_NAME);
+          const objectStore = transaction.objectStore(this.#DB_STORE_TASK);
           const request = objectStore.add({
             description: task.description,
             created: task.created,
             deadline: task.deadline,
             isComplete: task.isComplete,
+            priorityKey: task.priorityKey,
           });
           request.onsuccess = (ev) => {
             task.id = ev.target.result
@@ -92,7 +134,7 @@ class IndexedDB {
 
       this.openDb()
         .then((dbConnection) => {
-          const transaction = dbConnection.transaction(this.#DB_STORE_NAME, 'readwrite');
+          const transaction = dbConnection.transaction(this.#DB_STORE_TASK, 'readwrite');
           transaction.oncomplete = (ev) => {
             res(task);
           };
@@ -100,7 +142,7 @@ class IndexedDB {
             rej(ev.target.error)
           };
 
-          const objectStore = transaction.objectStore(this.#DB_STORE_NAME);
+          const objectStore = transaction.objectStore(this.#DB_STORE_TASK);
           const request = objectStore.get(task.id);
           request.onsuccess = (ev) => {
             let data = ev.target.result;
@@ -121,7 +163,7 @@ class IndexedDB {
 
       this.openDb()
         .then((dbConnection) => {
-          const transaction = dbConnection.transaction(this.#DB_STORE_NAME, 'readwrite');
+          const transaction = dbConnection.transaction(this.#DB_STORE_TASK, 'readwrite');
           transaction.oncomplete = (ev) => {
             res(task);
           };
@@ -129,7 +171,7 @@ class IndexedDB {
             rej(ev.target.error)
           };
 
-          const objectStore = transaction.objectStore(this.#DB_STORE_NAME);
+          const objectStore = transaction.objectStore(this.#DB_STORE_TASK);
           objectStore.delete(task.id);
         })
         .catch((err) => console.error(err));

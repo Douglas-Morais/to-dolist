@@ -33,6 +33,9 @@ class ApiService {
     return this.#dbService.readAllTasks();
   }
 
+  getPriorityDescriptionByKey(key) {
+    return this.#dbService.getPriorityDescription(key);
+  }
 
   createTask(task) {
     return this.#dbService.insertTask(task);

@@ -8,6 +8,7 @@ class MemoryDb {
       created: new Date(),
       deadline: new Date(),
       isComplete: false,
+      priorityKey: 1,
     }
   ];
 
@@ -19,7 +20,32 @@ class MemoryDb {
     });
   }
 
+  async getPriorityDescription(key) {
+    return await new Promise((res, rej) => {
+      switch (Number(key)) {
+        case 1:
+          res('Urgente');
+          break;
+        case 2:
+          res('Importante');
+          break;
+        case 3:
+          res('Normal');
+          break;
+        case 4:
+          res('Adiável');
+          break;
+
+        default:
+          res('Normal');
+          break;
+      }
+    });
+
+  }
+
   async insertTask(task) {
+    console.warn(task)
     if (!task instanceof ITask) { rej(new TypeError('Data is not of type ITask')) };
     return new Promise((resolve, reject) => {
       this.#datasInMemory.push(task);

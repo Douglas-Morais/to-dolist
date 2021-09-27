@@ -24,20 +24,20 @@ export class AppMain extends HTMLElement {
   }
 
   validateDataInputs(ev) {
-    if(ev.target.name === 'description') {
-      if(ev.target.checkValidity()){
+    if (ev.target.name === 'description') {
+      if (ev.target.checkValidity()) {
         ev.target.parentNode.classList = 'form-control success';
-      }else {
+      } else {
         ev.target.parentNode.classList = 'form-control error';
         ev.target.parentNode.querySelector('small').innerHTML = 'Mínimo 3 caracteres e no máximo 40';
       }
     }
-    if(ev.target.name === 'deadline') {
-      if(ev.target.checkValidity()){
+    if (ev.target.name === 'deadline') {
+      if (ev.target.checkValidity()) {
         ev.target.parentNode.classList = 'form-control success';
-      }else {
+      } else {
         ev.target.parentNode.classList = 'form-control error';
-        ev.target.parentNode.querySelector('small').innerHTML = 'A fim do prazo deverá ser no mínimo a data de hoje';
+        ev.target.parentNode.querySelector('small').innerHTML = 'Mínimo hoje';
       }
     }
 
@@ -57,14 +57,15 @@ export class AppMain extends HTMLElement {
       undefined,
       formProps.description.trim(),
       new Date(),
-      new Date(formProps.deadline)
+      new Date(formProps.deadline),
+      formProps.priorityKey
     );
 
     this.buttonSubmit.setAttribute('disabled', '');
     this.#formTask.reset();
     this.inputDescription.parentNode.classList = 'form-control';
     this.inputDeadline.parentNode.classList = 'form-control';
-    
+
     this.#apiService.createTask(dataTask)
       .then((task) => {
         this.createTaskIntoDom(task);
@@ -81,7 +82,16 @@ export class AppMain extends HTMLElement {
 
     const deadline = document.createElement('span');
     deadline.setAttribute('slot', 'deadline');
-    deadline.innerHTML = dataTask.deadline.toLocaleDateString()
+    deadline.innerHTML = dataTask.deadline.toLocaleDateString();
+
+    const priority = document.createElement('span');
+    priority.setAttribute('slot', 'priorityKey');
+    this.#apiService.getPriorityDescriptionByKey(dataTask.priorityKey)
+      .then((priorityDescription) => {
+        priority.innerHTML = priorityDescription;
+        taskElement.appendChild(priority);
+      });
+
 
     if (dataTask.isComplete) {
       taskElement.setAttribute('done', '');
@@ -129,13 +139,20 @@ export class AppMain extends HTMLElement {
           description.setAttribute('slot', 'description');
           description.innerHTML = data.description;
 
+          const priority = document.createElement('span');
+          priority.setAttribute('slot', 'priorityKey');
+          this.#apiService.getPriorityDescriptionByKey(data.priorityKey)
+            .then((priorityDescription) => {
+              priority.innerHTML = priorityDescription;
+              task.appendChild(description);
+              task.appendChild(deadline);
+              task.appendChild(priority);
+            });
+
           if (data.isComplete) {
             task.setAttribute('done', '');
             deadline.innerHTML = "Concluído!";
           }
-
-          task.appendChild(description);
-          task.appendChild(deadline);
           return task;
         }
         Array.from(serverTasks, createTaskElement).forEach((task) => this.shadowRoot.appendChild(task));
