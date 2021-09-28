@@ -25,7 +25,7 @@ class IndexedDB {
         const store = ev.currentTarget.result;
 
         const taskStore = store.createObjectStore(this.#DB_STORE_TASK, { autoIncrement: true });
-        taskStore.createIndex('description', 'description', { unique: true });
+        taskStore.createIndex('description', 'description', { unique: false });
         taskStore.createIndex('created', 'created', { unique: false });
         taskStore.createIndex('deadline', 'deadline', { unique: false });
         taskStore.createIndex('priorityKey', 'priorityKey', { unique: false });
