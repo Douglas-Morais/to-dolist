@@ -29,18 +29,25 @@ class ApiService {
     }, 1000);
   }
 
-  readTasks() {
-    return this.#dbService.readAllTasks();
+  getTasks() {
+    return this.#dbService.getAllTasks();
   }
 
   getPriorityDescriptionByKey(key) {
     return this.#dbService.getPriorityDescription(key);
   }
 
+  getTags() {
+    return this.#dbService.getAllTags();
+  }
+
+  getTagDescriptionByKey(key) {
+    return this.#dbService.getTagDescription(key);
+  }
+
   createTask(task) {
     return this.#dbService.insertTask(task);
   }
-
 
   updateTask(task) {
     return this.#dbService.updateTask(task);

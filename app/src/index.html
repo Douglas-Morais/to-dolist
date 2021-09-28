@@ -58,10 +58,8 @@
             <!-- <small>Error message</small> -->
           </div>
           <div class="form-control">
-            <label for="input-tag">Tag</label>
-            <select name="tagKey" id="input-tag">
-              <option value="1" selected>Casa da minha avó e do meu avô</option>
-            </select>
+            <label for="select-tag">Tag</label>
+            <select name="tagKey" id="select-tag"></select>
             <div class="fa-tags"></div>
           </div>
         </div>
@@ -87,14 +85,16 @@
               <div class="tags">
                 <ul>
                   <li>
-                    <slot name="tag">Tag</slot>
+                    <slot name="tagKey">Tag</slot>
                     <img src="../assets/icons/tag-solid.svg" alt="tag"/>
                   </li>
                   <li>
                     <slot name="deadline">deadline</slot>
+                    <img src="../assets/icons/stopwatch-solid.svg" alt="deadline"/>
                   </li>
                   <li>
                     <slot name="priorityKey">Priority</slot>!
+                    <img src="../assets/icons/exclamation-triangle-solid.svg" alt="priority"/>
                   </li>
                 </ul>
               </div>

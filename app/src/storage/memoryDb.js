@@ -1,7 +1,7 @@
 import ITask from "../interface/task.js";
 
 class MemoryDb {
-  #datasInMemory = [
+  #tasksInMemory = [
     {
       id: 1,
       description: 'Tarefa em Memória!',
@@ -9,14 +9,30 @@ class MemoryDb {
       deadline: new Date(),
       isComplete: false,
       priorityKey: 1,
+      tagKey: 1,
+    }
+  ];
+
+  #tagsInMemory = [
+    {
+      id: 1,
+      description: 'Casa',
+    },
+    {
+      id: 2,
+      description: 'Faculdade',
+    },
+    {
+      id: 5,
+      description: 'Trabalho',
     }
   ];
 
   constructor() { }
 
-  async readAllTasks() {
+  async getAllTasks() {
     return await new Promise((resolve, reject) => {
-      resolve(this.#datasInMemory);
+      resolve(this.#tasksInMemory);
     });
   }
 
@@ -41,16 +57,30 @@ class MemoryDb {
           break;
       }
     });
+  }
 
+  async getTagDescription(key) {
+    return await new Promise((res, rej) => {
+      const index = this.#tagsInMemory.findIndex((tag) => {
+        if(tag.id == key) return true
+        return false
+      });
+      res(this.#tagsInMemory[index].description);
+    });
+  }
+
+  async getAllTags() {
+    return await new Promise((resolve, reject) => {
+      resolve(this.#tagsInMemory);
+    });
   }
 
   async insertTask(task) {
-    console.warn(task)
     if (!task instanceof ITask) { rej(new TypeError('Data is not of type ITask')) };
     return new Promise((resolve, reject) => {
-      this.#datasInMemory.push(task);
-      if (this.#datasInMemory.indexOf(task) !== -1) {
-        task.id = this.#datasInMemory.indexOf(task);
+      this.#tasksInMemory.push(task);
+      if (this.#tasksInMemory.indexOf(task) !== -1) {
+        task.id = this.#tasksInMemory.indexOf(task);
         resolve(task);
       } else {
         reject(new Error('Writing in memory error!'));
@@ -62,8 +92,8 @@ class MemoryDb {
     if (!task instanceof ITask) { rej(new TypeError('Data is not of type ITask')) };
     return new Promise((resolve, reject) => {
       try {
-        this.#datasInMemory[task.id] = task;
-        resolve(this.#datasInMemory[task.id]);
+        this.#tasksInMemory[task.id] = task;
+        resolve(this.#tasksInMemory[task.id]);
       } catch (err) {
         reject(new Error('Update data in memory error!'));
       }
@@ -74,8 +104,8 @@ class MemoryDb {
     if (!task instanceof ITask) { rej(new TypeError('Data is not of type ITask')) };
     return new Promise((resolve, reject) => {
       try {
-        this.#datasInMemory.splice(this.#datasInMemory.indexOf(task), 1);
-        resolve(this.#datasInMemory);
+        this.#tasksInMemory.splice(this.#tasksInMemory.indexOf(task), 1);
+        resolve(this.#tasksInMemory);
       } catch (err) {
         reject(err)
       }

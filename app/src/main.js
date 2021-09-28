@@ -4,6 +4,7 @@ import { API_SERVICE } from "./service/api.service.js";
 export class AppMain extends HTMLElement {
   #apiService;
   #formTask;
+  #selectTag;
 
   constructor() {
     super();
@@ -14,13 +15,28 @@ export class AppMain extends HTMLElement {
   connectedCallback() {
     this.attachShadow({ mode: 'open' });
     this.#formTask = document.forms.namedItem('formTask');
+    this.#selectTag = document.getElementById('select-tag');
     this.inputDeadline = document.getElementById('input-deadline');
     this.inputDeadline.setAttribute('min', new Date().toISOString().split('T')[0]);
     this.inputDescription = document.getElementById('input-description');
     this.buttonSubmit = document.getElementById('submit');
     this.#formTask.addEventListener('submit', this.submitTask.bind(this));
     this.#formTask.addEventListener('input', this.validateDataInputs.bind(this));
-    this.updateTasksIntoDom();
+    this.insertTagsOptionsIntoDom();
+    this.insertTasksIntoDom();
+  }
+
+  insertTagsOptionsIntoDom() {
+    this.#apiService.getTags()
+      .then((tags) => {
+        tags.forEach((tag, index) => {
+          const optionTag = document.createElement('option');
+          optionTag.setAttribute('value', tag.id);
+          optionTag.innerText = tag.description;
+          this.#selectTag.appendChild(optionTag);
+        });
+      })
+      .catch((err) => console.error(err));
   }
 
   validateDataInputs(ev) {
@@ -29,7 +45,7 @@ export class AppMain extends HTMLElement {
         ev.target.parentNode.classList = 'form-control success';
       } else {
         ev.target.parentNode.classList = 'form-control error';
-        ev.target.parentNode.querySelector('small').innerHTML = 'Mínimo 3 caracteres e no máximo 40';
+        //ev.target.parentNode.querySelector('small').innerHTML = 'Mínimo 3 caracteres e no máximo 40';
       }
     }
     if (ev.target.name === 'deadline') {
@@ -37,7 +53,7 @@ export class AppMain extends HTMLElement {
         ev.target.parentNode.classList = 'form-control success';
       } else {
         ev.target.parentNode.classList = 'form-control error';
-        ev.target.parentNode.querySelector('small').innerHTML = 'Mínimo hoje';
+        //ev.target.parentNode.querySelector('small').innerHTML = 'Mínimo hoje';
       }
     }
 
@@ -58,7 +74,8 @@ export class AppMain extends HTMLElement {
       formProps.description.trim(),
       new Date(),
       new Date(formProps.deadline),
-      formProps.priorityKey
+      formProps.priorityKey,
+      formProps.tagKey
     );
 
     this.buttonSubmit.setAttribute('disabled', '');
@@ -88,10 +105,17 @@ export class AppMain extends HTMLElement {
     priority.setAttribute('slot', 'priorityKey');
     this.#apiService.getPriorityDescriptionByKey(dataTask.priorityKey)
       .then((priorityDescription) => {
-        priority.innerHTML = priorityDescription;
+        priority.innerText = priorityDescription;
         taskElement.appendChild(priority);
       });
 
+    const tag = document.createElement('span');
+    tag.setAttribute('slot', 'tagKey');
+    this.#apiService.getTagDescriptionByKey(dataTask.tagKey)
+      .then((tagDescription) => {
+        tag.innerText = tagDescription;
+        taskElement.appendChild(tag);
+      });
 
     if (dataTask.isComplete) {
       taskElement.setAttribute('done', '');
@@ -122,8 +146,8 @@ export class AppMain extends HTMLElement {
   }
 
 
-  updateTasksIntoDom() {
-    this.#apiService.readTasks()
+  insertTasksIntoDom() {
+    this.#apiService.getTasks()
       .then((serverTasks) => {
         const createTaskElement = (data, index) => {
           const task = document.createElement('app-task');
@@ -144,15 +168,24 @@ export class AppMain extends HTMLElement {
           this.#apiService.getPriorityDescriptionByKey(data.priorityKey)
             .then((priorityDescription) => {
               priority.innerHTML = priorityDescription;
-              task.appendChild(description);
-              task.appendChild(deadline);
               task.appendChild(priority);
+            });
+
+          const tag = document.createElement('span');
+          tag.setAttribute('slot', 'tagKey');
+          this.#apiService.getTagDescriptionByKey(data.tagKey)
+            .then((tagDescription) => {
+              tag.innerText = tagDescription;
+              task.appendChild(tag);
             });
 
           if (data.isComplete) {
             task.setAttribute('done', '');
             deadline.innerHTML = "Concluído!";
           }
+
+          task.appendChild(description);
+          task.appendChild(deadline);
           return task;
         }
         Array.from(serverTasks, createTaskElement).forEach((task) => this.shadowRoot.appendChild(task));

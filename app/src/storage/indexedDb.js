@@ -29,9 +29,7 @@ class IndexedDB {
         taskStore.createIndex('created', 'created', { unique: false });
         taskStore.createIndex('deadline', 'deadline', { unique: false });
         taskStore.createIndex('priorityKey', 'priorityKey', { unique: false });
-
-        const tagStore = store.createObjectStore(this.#DB_STORE_TAGS, { autoIncrement: true });
-        tagStore.createIndex('description', 'description', { unique: true });
+        taskStore.createIndex('tagKey', 'tagKey', { unique: false });
 
         const priorityStore = store.createObjectStore(this.#DB_STORE_PRIORITIES, { autoIncrement: true });
         priorityStore.createIndex('description', 'description', { unique: true });
@@ -40,11 +38,16 @@ class IndexedDB {
         priorityStore.add({ description: 'Importante' });
         priorityStore.add({ description: 'Normal' });
         priorityStore.add({ description: 'Adiável' });
+
+        const tagStore = store.createObjectStore(this.#DB_STORE_TAGS, { autoIncrement: true });
+        tagStore.createIndex('description', 'description', { unique: true });
+
+        tagStore.add({description: 'Casa'});
       };
     });
   }
 
-  async readAllTasks() {
+  async getAllTasks() {
     return await new Promise((res, rej) => {
       this.openDb()
         .then((dbConnection) => {
@@ -94,8 +97,60 @@ class IndexedDB {
           }
         })
         .catch((err) => console.error(err));
+    });    
+  }
+
+  async getAllTags() {
+    return await new Promise((res, rej) => {
+      this.openDb()
+        .then((dbConnection) => {
+          const transaction = dbConnection.transaction(this.#DB_STORE_TAGS, 'readonly');
+          transaction.oncomplete = (ev) => {
+            res();
+          };
+          transaction.onerror = (ev) => {
+            rej(ev.target.error)
+          };
+
+          const objectStore = transaction.objectStore(this.#DB_STORE_TAGS);
+          const request = objectStore.getAll();
+          request.onsuccess = (ev) => {
+            let tags = ev.target.result;
+            const requestKeys = objectStore.getAllKeys();
+            requestKeys.onsuccess = (ev) => {
+              tags.forEach((tag, index) => tag.id = ev.target.result[index]);
+              res(tags);
+            };
+          };
+        })
+        .catch((err) => console.error(err));
     });
-    
+  }
+
+  async getTagDescription(key) {
+    return await new Promise((res, rej) => {
+      this.openDb()
+        .then((dbConnection) => {
+          const transaction = dbConnection.transaction(this.#DB_STORE_TAGS, 'readonly');
+          transaction.oncomplete = (ev) => {
+            res();
+          };
+          transaction.onerror = (ev) => {
+            rej(ev.target.error)
+          };
+
+          const objectStore = transaction.objectStore(this.#DB_STORE_TAGS);
+          objectStore.openCursor().onsuccess = (ev) => {
+            let cursor = ev.target.result;
+            if(cursor) {
+              cursor.key == key
+              ? res(cursor.value.description)
+              : cursor.continue();
+            }
+          }
+        })
+        .catch((err) => console.error(err));
+    });    
   }
 
   async insertTask(task) {
@@ -119,6 +174,7 @@ class IndexedDB {
             deadline: task.deadline,
             isComplete: task.isComplete,
             priorityKey: task.priorityKey,
+            tagKey: task.tagKey,
           });
           request.onsuccess = (ev) => {
             task.id = ev.target.result
@@ -150,6 +206,8 @@ class IndexedDB {
             data.created = task.created ? task.created : data.created;
             data.deadline = task.deadline ? task.deadline : data.deadline;
             data.isComplete = task.isComplete ? task.isComplete : data.isComplete;
+            data.priorityKey = task.priorityKey ? task.priorityKey : data.priorityKey;
+            data.tagKey = task.tagKey ? task.tagKey : data.tagKey;
             objectStore.put(data, task.id);
           };
         })
