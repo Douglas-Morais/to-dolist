@@ -1,14 +1,18 @@
 import ITask from "./interface/task.js";
 import { API_SERVICE } from "./service/api.service.js";
+import { EVENT_EMITTER } from "./service/event-emitter.js";
 
 export class AppMain extends HTMLElement {
   #apiService;
   #formTask;
   #selectTag;
+  #buttonTag;
+  #eventEmitter;
 
   constructor() {
     super();
     this.#apiService = API_SERVICE;
+    this.#eventEmitter = EVENT_EMITTER;
     console.log('App Initialized!');
   }
 
@@ -16,6 +20,8 @@ export class AppMain extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.#formTask = document.forms.namedItem('formTask');
     this.#selectTag = document.getElementById('select-tag');
+    this.#buttonTag = document.getElementById('button-tag');
+    this.#buttonTag.addEventListener('click', this.createTag.bind(this));
     this.inputDeadline = document.getElementById('input-deadline');
     this.inputDeadline.setAttribute('min', new Date().toISOString().split('T')[0]);
     this.inputDescription = document.getElementById('input-description');
@@ -24,19 +30,29 @@ export class AppMain extends HTMLElement {
     this.#formTask.addEventListener('input', this.validateDataInputs.bind(this));
     this.insertTagsOptionsIntoDom();
     this.insertTasksIntoDom();
+    this.#eventEmitter.on('createdTag', this.insertTagOptionIntoDom.bind(this));
+  }
+
+  createTag(ev) {
+    const appModal = document.createElement('app-modal');
+    document.body.appendChild(appModal);
   }
 
   insertTagsOptionsIntoDom() {
     this.#apiService.getTags()
       .then((tags) => {
         tags.forEach((tag, index) => {
-          const optionTag = document.createElement('option');
-          optionTag.setAttribute('value', tag.id);
-          optionTag.innerText = tag.description;
-          this.#selectTag.appendChild(optionTag);
+          this.insertTagOptionIntoDom(tag);
         });
       })
       .catch((err) => console.error(err));
+  }
+
+  insertTagOptionIntoDom(tag) {
+    const optionTag = document.createElement('option');
+    optionTag.setAttribute('value', tag.id);
+    optionTag.innerText = tag.description;
+    this.#selectTag.appendChild(optionTag);
   }
 
   validateDataInputs(ev) {
@@ -144,7 +160,6 @@ export class AppMain extends HTMLElement {
 
     this.shadowRoot.appendChild(taskElement);
   }
-
 
   insertTasksIntoDom() {
     this.#apiService.getTasks()

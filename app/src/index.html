@@ -20,6 +20,7 @@
 
   <link rel="stylesheet" href="./style.css">
   <script type="module" src="./task/task.component.js" defer></script>
+  <script type="module" src="./modal/modal.component.js" defer></script>
   <script type="module" src="./main.js" defer></script>
 </head>
 
@@ -33,7 +34,7 @@
       <form name="formTask" class="form">
         <div class="form-inline">
           <div class="form-control">
-            <label for="input-deadline">Qual o prazo final?</label>
+            <label for="input-deadline">Prazo</label>
             <input id="input-deadline" type="date" name="deadline" autocomplete="off" required />
             <!-- <small>Error message</small> -->
           </div>
@@ -50,9 +51,9 @@
         </div>
         <div class="form-inline">
           <div class="form-control">
-            <label for="input-description">O que faço?</label>
-            <input id="input-description" type="text" placeholder="tarefa..." name="description"
-              autocomplete="off" minlength="3" maxlength="40" required />
+            <label for="input-description">Tarefa</label>
+            <input id="input-description" type="text" placeholder="tarefa..." name="description" autocomplete="off"
+              minlength="3" maxlength="40" required />
             <div class="fas fa-times-circle"></div>
             <div class="fas fa-check-circle"></div>
             <!-- <small>Error message</small> -->
@@ -65,7 +66,7 @@
         </div>
         <div class="button-area">
           <button id="submit" type="submit" disabled>Criar</button>
-          <button id="buttonTag" type="button">Tag +</button>
+          <button id="button-tag" type="button">Tag +</button>
         </div>
       </form>
 
@@ -86,15 +87,15 @@
                 <ul>
                   <li>
                     <slot name="tagKey">Tag</slot>
-                    <img src="../assets/icons/tag-solid.svg" alt="tag"/>
+                    <img src="../assets/icons/tag-solid.svg" alt="tag" />
                   </li>
                   <li>
                     <slot name="deadline">deadline</slot>
-                    <img src="../assets/icons/stopwatch-solid.svg" alt="deadline"/>
+                    <img src="../assets/icons/stopwatch-solid.svg" alt="deadline" />
                   </li>
                   <li>
                     <slot name="priorityKey">Priority</slot>!
-                    <img src="../assets/icons/exclamation-triangle-solid.svg" alt="priority"/>
+                    <img src="../assets/icons/exclamation-triangle-solid.svg" alt="priority" />
                   </li>
                 </ul>
               </div>

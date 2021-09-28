@@ -1,3 +1,4 @@
+import ITag from "../interface/tag.js";
 import ITask from "../interface/task.js";
 
 class MemoryDb {
@@ -82,6 +83,19 @@ class MemoryDb {
       if (this.#tasksInMemory.indexOf(task) !== -1) {
         task.id = this.#tasksInMemory.indexOf(task);
         resolve(task);
+      } else {
+        reject(new Error('Writing in memory error!'));
+      }
+    });
+  }
+
+  async insertTag(tag) {
+    if (!tag instanceof ITag) { rej(new TypeError('Data is not of type ITask')) };
+    return new Promise((resolve, reject) => {
+      this.#tagsInMemory.push(tag);
+      if (this.#tagsInMemory.indexOf(tag) !== -1) {
+        tag.id = this.#tagsInMemory.indexOf(tag);
+        resolve(tag);
       } else {
         reject(new Error('Writing in memory error!'));
       }

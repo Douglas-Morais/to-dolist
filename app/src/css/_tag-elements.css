@@ -110,6 +110,7 @@ app-main {
   outline: none;
   border-radius: 0.25em;
   background-color: #f6f6f6;
+  text-transform: capitalize;
 }
 
 .form-control select:focus {

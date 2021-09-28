@@ -1,4 +1,5 @@
 import ITask from '../interface/task.js';
+import ITag from '../interface/tag.js';
 
 class IndexedDB {
   #DB_NAME = 'to-Do-immersion42';
@@ -42,7 +43,7 @@ class IndexedDB {
         const tagStore = store.createObjectStore(this.#DB_STORE_TAGS, { autoIncrement: true });
         tagStore.createIndex('description', 'description', { unique: true });
 
-        tagStore.add({description: 'Casa'});
+        tagStore.add({ description: 'casa' });
       };
     });
   }
@@ -89,15 +90,15 @@ class IndexedDB {
           const objectStore = transaction.objectStore(this.#DB_STORE_PRIORITIES);
           objectStore.openCursor().onsuccess = (ev) => {
             let cursor = ev.target.result;
-            if(cursor) {
+            if (cursor) {
               cursor.key == key
-              ? res(cursor.value.description)
-              : cursor.continue();
+                ? res(cursor.value.description)
+                : cursor.continue();
             }
           }
         })
         .catch((err) => console.error(err));
-    });    
+    });
   }
 
   async getAllTags() {
@@ -142,15 +143,15 @@ class IndexedDB {
           const objectStore = transaction.objectStore(this.#DB_STORE_TAGS);
           objectStore.openCursor().onsuccess = (ev) => {
             let cursor = ev.target.result;
-            if(cursor) {
+            if (cursor) {
               cursor.key == key
-              ? res(cursor.value.description)
-              : cursor.continue();
+                ? res(cursor.value.description)
+                : cursor.continue();
             }
           }
         })
         .catch((err) => console.error(err));
-    });    
+    });
   }
 
   async insertTask(task) {
@@ -178,6 +179,30 @@ class IndexedDB {
           });
           request.onsuccess = (ev) => {
             task.id = ev.target.result
+          };
+        })
+        .catch((err) => console.error(err));
+    });
+  }
+
+  async insertTag(tag) {
+    return await new Promise((res, rej) => {
+      if (!tag instanceof ITag) { rej(new TypeError('Data is not of type ITag')) };
+
+      this.openDb()
+        .then((dbConnection) => {
+          const transaction = dbConnection.transaction(this.#DB_STORE_TAGS, 'readwrite');
+          transaction.oncomplete = (ev) => {
+            res(tag);
+          };
+          transaction.onerror = (ev) => {
+            rej(ev.target.error)
+          };
+
+          const objectStore = transaction.objectStore(this.#DB_STORE_TAGS);
+          const request = objectStore.add({ description: tag.description });
+          request.onsuccess = (ev) => {
+            tag.id = ev.target.result
           };
         })
         .catch((err) => console.error(err));
