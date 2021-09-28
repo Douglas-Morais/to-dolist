@@ -73,7 +73,9 @@ app-main {
   width: 20px;
   position: absolute;
   right: 10px;
-  bottom: 36px;
+  bottom: 13px;
+  background-position: right center;
+  background-repeat: no-repeat;
 }
 
 .form-control.success div.fa-check-circle {
@@ -99,7 +101,7 @@ app-main {
   background-color: transparent;
   border: none;
   margin: 5px 0px;
-  padding: .42rem 10px;
+  padding: 7px 40px 6px 10px;
   width: 100%;
   font-family: inherit;
   font-size: inherit;
@@ -130,20 +132,32 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   opacity: 1
 }
 
-[class*="fa-"] {
+.fas {
   visibility: hidden;
 }
 
+[class*="fa-"] {
+  opacity: .75;
+}
+
+[class*="fa-"]:hover {
+  opacity: 1;
+}
+
 .fa-times-circle {
-  height: 20px;
-  width: 20px;
   background: url('../../assets/icons/times-circle-solid.svg');
 }
 
 .fa-check-circle {
-  height: 20px;
-  width: 20px;
   background: url('../../assets/icons/check-circle-solid.svg');
+}
+
+.fa-exclamation {
+  background: url('../../assets/icons/exclamation-solid.svg');
+}
+
+.fa-tags {
+  background: url('../../assets/icons/tags-solid.svg');
 }
 
 label {
@@ -165,6 +179,7 @@ input {
 
 input[type="text"] {
   padding-right: 40px !important;
+  min-width: 185px;
 }
 
 input[checked] {

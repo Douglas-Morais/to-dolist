@@ -22,6 +22,11 @@
   grid-row: 1;
 }
 
+.form .button-area {
+  display: flex;
+  justify-content: space-between;
+}
+
 .title {
   grid-row: 2;
   color: var(--main-white);
@@ -140,7 +145,13 @@
   color: var(--main-yellow);
 }
 
-.task-control .tags ul li:nth-child(2){
+.task-control .tags ul li:nth-child(2) {
   color: var(--main-red);
 }
 
+.task-control .tags ul li img {
+  position: relative;
+  left: 5px;
+  top: 2px;
+  height: 12px;
+}

@@ -35,31 +35,43 @@
           <div class="form-control">
             <label for="input-deadline">Qual o prazo final?</label>
             <input id="input-deadline" type="date" name="deadline" autocomplete="off" required />
-            <small>Error message</small>
+            <!-- <small>Error message</small> -->
           </div>
           <div class="form-control">
-            <label for="input-deadline">Prioridade</label>
-            <select name="priorityKey">
+            <label for="input-priorityKey">Prioridade</label>
+            <select name="priorityKey" id="input-priorityKey">
               <option value="1">Urgente</option>
               <option value="2">Importante</option>
               <option value="3" selected>Normal</option>
               <option value="4">Adiável</option>
             </select>
-
+            <div class="fa-exclamation"></div>
           </div>
         </div>
-        <div class="form-control">
-          <label for="input-description">O que devo fazer até lá?</label>
-          <input id="input-description" type="text" placeholder="Insira sua tarefa..." name="description"
-            autocomplete="off" minlength="3" maxlength="40" required />
-          <div class="fas fa-times-circle"></div>
-          <div class="fas fa-check-circle"></div>
-          <small>Error message</small>
+        <div class="form-inline">
+          <div class="form-control">
+            <label for="input-description">O que faço?</label>
+            <input id="input-description" type="text" placeholder="tarefa..." name="description"
+              autocomplete="off" minlength="3" maxlength="40" required />
+            <div class="fas fa-times-circle"></div>
+            <div class="fas fa-check-circle"></div>
+            <!-- <small>Error message</small> -->
+          </div>
+          <div class="form-control">
+            <label for="input-tag">Tag</label>
+            <select name="tagKey" id="input-tag">
+              <option value="1" selected>Casa da minha avó e do meu avô</option>
+            </select>
+            <div class="fa-tags"></div>
+          </div>
         </div>
-        <button id="submit" type="submit" disabled>Criar</button>
+        <div class="button-area">
+          <button id="submit" type="submit" disabled>Criar</button>
+          <button id="buttonTag" type="button">Tag +</button>
+        </div>
       </form>
 
-      <h2 class="title">Lista de tarefas</h2>
+      <h3 class="title">Lista de tarefas</h3>
 
       <div id="list-tasks" class="list">
 
@@ -76,12 +88,13 @@
                 <ul>
                   <li>
                     <slot name="tag">Tag</slot>
+                    <img src="../assets/icons/tag-solid.svg" alt="tag"/>
                   </li>
                   <li>
                     <slot name="deadline">deadline</slot>
                   </li>
                   <li>
-                    <slot name="priorityKey">Priority</slot>
+                    <slot name="priorityKey">Priority</slot>!
                   </li>
                 </ul>
               </div>
