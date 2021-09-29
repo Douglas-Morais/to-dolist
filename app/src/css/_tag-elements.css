@@ -6,7 +6,7 @@ body {
   height: 100vh;
   width: 100vw;
   display: grid;
-  grid-template-columns: [col-start] 20px [col-start] auto [col-start] 20px;
+  grid-template-columns: [col-start] 10px [col-start] auto [col-start] 10px;
   grid-template-rows:
     [row-start] 12% [row-start] 87% [col-start] 1% [col-end];
 }

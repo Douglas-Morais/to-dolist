@@ -137,6 +137,7 @@ export class AppTask extends HTMLElement {
       .then((task) => {
         this.setAttribute('done','');
         this.#taskElement.classList.add('done');
+        this.children.namedItem('deadline').textContent = 'Concluído';
         this.#inputDescription.setAttribute('checked','');
         this.#buttonCheck.removeEventListener('click', this.checkTask, false);
         this.#buttonEdit.removeEventListener('click', this.editTask, false);

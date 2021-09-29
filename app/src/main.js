@@ -171,15 +171,18 @@ export class AppMain extends HTMLElement {
 
           const deadline = document.createElement('span');
           deadline.setAttribute('slot', 'deadline');
+          deadline.setAttribute('name', 'deadline');
 
           deadline.innerHTML = new Date(data.deadline).toLocaleDateString();
 
           const description = document.createElement('span');
           description.setAttribute('slot', 'description');
+          description.setAttribute('name', 'description');
           description.innerHTML = data.description;
 
           const priority = document.createElement('span');
           priority.setAttribute('slot', 'priorityKey');
+          priority.setAttribute('name', 'priorityKey');
           this.#apiService.getPriorityDescriptionByKey(data.priorityKey)
             .then((priorityDescription) => {
               priority.innerHTML = priorityDescription;
@@ -188,6 +191,7 @@ export class AppMain extends HTMLElement {
 
           const tag = document.createElement('span');
           tag.setAttribute('slot', 'tagKey');
+          tag.setAttribute('name', 'tagKey');
           this.#apiService.getTagDescriptionByKey(data.tagKey)
             .then((tagDescription) => {
               tag.innerText = tagDescription;
