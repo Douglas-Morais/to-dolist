@@ -10,6 +10,8 @@ export class AppTask extends HTMLElement {
   #buttonRemove;
   #buttonEdit;
 
+  #taskElement;
+
   #task;
   #apiService;
   #formEditTask;
@@ -25,12 +27,19 @@ export class AppTask extends HTMLElement {
       taskObject.id,
       taskObject.description,
       taskObject.created,
-      taskObject.deadline
+      taskObject.deadline,
+      taskObject.priorityKey,
+      taskObject.tagKey
     );
     this.build();
     this.#formEditTask = this.shadowRoot.getElementById('formEditTask');
     this.#formEditTask.addEventListener('input', this.validateFormEditTask.bind(this));
     this.#formEditTask.addEventListener('submit', this.submitFormEditTask.bind(this));
+    this.#taskElement = this.shadowRoot.getElementById('task');
+    if(this.hasAttribute('done')) {
+      this.#taskElement.classList.add('done');
+      this.#inputDescription.setAttribute('checked','');
+    };
   }
 
   build() {
@@ -123,12 +132,15 @@ export class AppTask extends HTMLElement {
   }
 
   checkTask() {
-    this.#inputDescription.setAttribute('checked', '');
-    this.#buttonCheck.setAttribute('src', this.#pathIconDoubleCheck);
-    this.#buttonEdit.setAttribute('src', this.#pathIconHandOk);
-    this.#buttonEdit.classList.remove('btn-edit');
-    this.#buttonCheck.removeEventListener('click', null);
-    this.#buttonEdit.removeEventListener('click', null);
+    if (this.#inputDescription.hasAttribute('checked')) return;
+    this.#apiService.checkTask(this.#task)
+      .then((task) => {
+        this.setAttribute('done','');
+        this.#taskElement.classList.add('done');
+        this.#inputDescription.setAttribute('checked','');
+        this.#buttonCheck.removeEventListener('click', this.checkTask, false);
+        this.#buttonEdit.removeEventListener('click', this.editTask, false);
+      });
   }
 
   removeTask() {

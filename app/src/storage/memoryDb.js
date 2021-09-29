@@ -63,7 +63,7 @@ class MemoryDb {
   async getTagDescription(key) {
     return await new Promise((res, rej) => {
       const index = this.#tagsInMemory.findIndex((tag) => {
-        if(tag.id == key) return true
+        if (tag.id == key) return true
         return false
       });
       res(this.#tagsInMemory[index].description);
@@ -98,6 +98,23 @@ class MemoryDb {
         resolve(tag);
       } else {
         reject(new Error('Writing in memory error!'));
+      }
+    });
+  }
+
+  async checkTask(task) {
+    if (!task instanceof ITask) { rej(new TypeError('Data is not of type ITask')) };
+    return new Promise((resolve, reject) => {
+      const index = this.#tasksInMemory.findIndex((taskMemory) => {
+        if (taskMemory.id === task.id) return true;
+        return false;
+      });
+      try {
+        this.#tasksInMemory[index].isComplete = true;
+        resolve(this.#tasksInMemory[index]);
+      } catch (err) {
+        console.error(err);
+        reject(new Error('Update data in memory error!'));
       }
     });
   }

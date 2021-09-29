@@ -53,6 +53,10 @@ class ApiService {
     return this.#dbService.insertTag(tag);
   }
 
+  checkTask(task) {
+    return this.#dbService.checkTask(task);
+  }
+
   updateTask(task) {
     return this.#dbService.updateTask(task);
   }

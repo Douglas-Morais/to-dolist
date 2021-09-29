@@ -101,14 +101,14 @@ export class AppMain extends HTMLElement {
 
     this.#apiService.createTask(dataTask)
       .then((task) => {
-        this.createTaskIntoDom(task);
+        this.insertTaskIntoDom(task);
       })
       .catch((err) => {
         alert('Houve um erro ao gravar os dados no banco de dados!');
       });
   }
 
-  createTaskIntoDom(dataTask) {
+  insertTaskIntoDom(dataTask) {
     const taskElement = document.createElement('app-task');
 
     taskElement.setAttribute('data-object', JSON.stringify(dataTask));

@@ -209,6 +209,32 @@ class IndexedDB {
     });
   }
 
+  async checkTask(task) {
+    return await new Promise((res, rej) => {
+      if (!task instanceof ITask) { rej(new TypeError('Data is not of type ITask')) };
+
+      this.openDb()
+        .then((dbConnection) => {
+          const transaction = dbConnection.transaction(this.#DB_STORE_TASK, 'readwrite');
+          transaction.oncomplete = (ev) => {
+            res(task);
+          };
+          transaction.onerror = (ev) => {
+            rej(ev.target.error)
+          };
+
+          const objectStore = transaction.objectStore(this.#DB_STORE_TASK);
+          const request = objectStore.get(task.id);
+          request.onsuccess = (ev) => {
+            let data = ev.target.result;
+            data.isComplete = true;
+            objectStore.put(data, task.id);
+          };
+        })
+        .catch((err) => console.error(err));
+    });
+  }
+
   async updateTask(task) {
     return await new Promise((res, rej) => {
       if (!task instanceof ITask) { rej(new TypeError('Data is not of type ITask')) };
