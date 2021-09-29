@@ -207,3 +207,51 @@
   right: -4px;
   top: 4px;
 }
+
+.form-filter {
+  display: flex;
+}
+
+#formFilters {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0px;
+}
+
+.form-filter {
+  position: relative;
+}
+
+.form-filter select {
+  appearance: none;
+  background-color: transparent;
+  color: var(--main-white);
+  border: none;
+  margin: 5px 0px;
+  padding: 0px 16px 0px 6px;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  cursor: pointer;
+  outline: none;
+  border-radius: 0.25em;
+  text-transform: capitalize;
+}
+
+.form-filter select > option {
+  color: black;
+  text-align: center;
+}
+
+.form-filter.filtering select {
+  border: 1px solid var(--main-white);
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.form-filter svg {
+  position: absolute;
+  top: 10px;
+  right: 3px;
+  height: 12px;
+  fill: var(--main-white);
+}
