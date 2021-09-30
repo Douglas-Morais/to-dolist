@@ -64,6 +64,10 @@ class ApiService {
   deleteTask(task) {
     return this.#dbService.deleteTask(task);
   }
+
+  filterTasks(priorityKey, tagKey) {
+    return this.#dbService.getFilterTasks(priorityKey, tagKey);
+  }
 }
 
 export const API_SERVICE = new ApiService();

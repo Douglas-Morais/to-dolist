@@ -75,6 +75,65 @@ class IndexedDB {
     });
   }
 
+  async getFilterTasks(priorityKey, tagKey) {
+    priorityKey = priorityKey | 0;
+    tagKey = tagKey | 0;
+    const noSelectFilters = 0;
+
+    return await new Promise((res, rej) => {
+      this.openDb()
+        .then((dbConnection) => {
+          const transaction = dbConnection.transaction(this.#DB_STORE_TASK, 'readonly');
+          let tasks = [];
+          transaction.oncomplete = (ev) => {
+            res(tasks);
+          };
+          transaction.onerror = (ev) => {
+            rej(ev.target.error)
+          };
+
+          const objectStore = transaction.objectStore(this.#DB_STORE_TASK);
+          objectStore.openCursor().onsuccess = (ev) => {
+            let cursor = ev.target.result;
+            const taskWithKey = (value, key) => {
+              let task = value;
+              task.id = key;
+              return task
+            };
+            if (cursor) {
+              if (
+                tagKey <= noSelectFilters
+                && priorityKey <= noSelectFilters
+              ) {
+                tasks.push(taskWithKey(cursor.value, cursor.key));
+              }
+              else if (
+                cursor.value.tagKey == tagKey
+                && priorityKey <= noSelectFilters
+              ) {
+                tasks.push(taskWithKey(cursor.value, cursor.key));
+              }
+              else if (
+                tagKey <= noSelectFilters
+                && cursor.value.priorityKey == priorityKey
+              ) {
+                tasks.push(taskWithKey(cursor.value, cursor.key));
+              }
+              else if (
+                cursor.value.tagKey == tagKey
+                && cursor.value.priorityKey == priorityKey
+              ) {
+                tasks.push(taskWithKey(cursor.value, cursor.key));
+              }
+
+              cursor.continue();
+            }
+          }
+        })
+        .catch((err) => console.error(err));
+    });
+  }
+
   async getPriorityDescription(key) {
     return await new Promise((res, rej) => {
       this.openDb()

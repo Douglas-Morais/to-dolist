@@ -8,6 +8,10 @@ export class AppMain extends HTMLElement {
   #selectTag;
   #buttonTag;
   #eventEmitter;
+  #filterTagElement;
+  #filterPriorityElement;
+  #filterTagKey;
+  #filterPriorityKey;
 
   constructor() {
     super();
@@ -31,6 +35,10 @@ export class AppMain extends HTMLElement {
     this.insertTagsOptionsIntoDom();
     this.insertTasksIntoDom();
     this.#eventEmitter.on('createdTag', this.insertTagOptionIntoDom.bind(this));
+    this.#filterTagElement = document.getElementById('filterTag');
+    this.#filterTagElement.addEventListener('change', this.filterTasks.bind(this));
+    this.#filterPriorityElement = document.getElementById('filterPriority');
+    this.#filterPriorityElement.addEventListener('change', this.filterTasks.bind(this));
   }
 
   createTag(ev) {
@@ -113,20 +121,30 @@ export class AppMain extends HTMLElement {
 
     taskElement.setAttribute('data-object', JSON.stringify(dataTask));
 
+
     const deadline = document.createElement('span');
     deadline.setAttribute('slot', 'deadline');
-    deadline.innerHTML = dataTask.deadline.toLocaleDateString();
+    deadline.setAttribute('name', 'deadline');
+
+    deadline.innerHTML = new Date(dataTask.deadline).toLocaleDateString();
+
+    const description = document.createElement('span');
+    description.setAttribute('slot', 'description');
+    description.setAttribute('name', 'description');
+    description.innerHTML = dataTask.description;
 
     const priority = document.createElement('span');
     priority.setAttribute('slot', 'priorityKey');
+    priority.setAttribute('name', 'priorityKey');
     this.#apiService.getPriorityDescriptionByKey(dataTask.priorityKey)
       .then((priorityDescription) => {
-        priority.innerText = priorityDescription;
+        priority.innerHTML = priorityDescription;
         taskElement.appendChild(priority);
       });
 
     const tag = document.createElement('span');
     tag.setAttribute('slot', 'tagKey');
+    tag.setAttribute('name', 'tagKey');
     this.#apiService.getTagDescriptionByKey(dataTask.tagKey)
       .then((tagDescription) => {
         tag.innerText = tagDescription;
@@ -142,7 +160,6 @@ export class AppMain extends HTMLElement {
     taskElement.style.visibility = 'hidden';
 
     const mutationObserve = new MutationObserver((mutationList, observe) => {
-      taskElement.shadowRoot.getElementById('task').classList.add('fade');
       for (const mutation of mutationList) {
         if (mutation.type === 'childList') {
           setTimeout(() => {
@@ -210,6 +227,36 @@ export class AppMain extends HTMLElement {
         Array.from(serverTasks, createTaskElement).forEach((task) => this.shadowRoot.appendChild(task));
       })
       .catch((err) => console.error(err));
+  }
+
+  filterTasks(ev) {
+    if (ev.target.id == 'filterTag') {
+      this.#filterTagKey = ev.target.value;
+    } else if (ev.target.id == 'filterPriority') {
+      this.#filterPriorityKey = ev.target.value;
+    }
+
+    const timeAnimationRemoveElements = 150;
+    this.#apiService.filterTasks(this.#filterPriorityKey, this.#filterTagKey)
+      .then((filteredTasks) => {
+        this.removeAllTasksFromDom();
+        setTimeout(() => {
+          filteredTasks.forEach((task) => {
+            this.insertTaskIntoDom(task);
+          });
+        }, timeAnimationRemoveElements);
+      });
+  }
+
+  removeAllTasksFromDom() {
+    for (let i = 0; i < this.shadowRoot.children.length; i++) {
+      const appTaskElement = this.shadowRoot.children.item(i);
+      const task = appTaskElement.shadowRoot.getElementById('task');
+      task.classList.add('fade-out');
+      task.addEventListener('animationend', (ev) => {
+        appTaskElement.remove();
+      });
+    }
   }
 }
 

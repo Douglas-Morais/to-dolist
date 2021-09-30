@@ -37,6 +37,43 @@ class MemoryDb {
     });
   }
 
+  async getFilterTasks(priorityKey, tagKey) {
+    priorityKey = priorityKey | 0;
+    tagKey = tagKey | 0;
+    const noSelectFilters = 0;
+    let filteredTasks = [];
+
+    return await new Promise((res, rej) => {
+      this.#tasksInMemory.filter((task) => {
+        if (
+          tagKey <= noSelectFilters
+          && priorityKey <= noSelectFilters
+        ) {
+          filteredTasks.push(task);
+        }
+        else if (
+          task.tagKey == tagKey
+          && priorityKey <= noSelectFilters
+        ) {
+          filteredTasks.push(task);
+        }
+        else if (
+          tagKey <= noSelectFilters
+          && task.priorityKey == priorityKey
+        ) {
+          filteredTasks.push(task);
+        }
+        else if (
+          task.tagKey == tagKey
+          && task.priorityKey == priorityKey
+        ) {
+          filteredTasks.push(task);
+        }
+      });
+      res(filteredTasks);
+    });
+  }
+
   async getPriorityDescription(key) {
     return await new Promise((res, rej) => {
       switch (Number(key)) {

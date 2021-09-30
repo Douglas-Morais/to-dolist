@@ -1,24 +1,21 @@
-
-.fade {
-  opacity: 0;
-  transition: all 250ms ease-in;
-}
-
 .fade-in {
+  animation: fadeIn 150ms ease-in;
+  -webkit-animation: fadeIn 150ms ease-in;
+  -moz-animation: fadeIn 150ms ease-in;
+  -o-animation: fadeIn 150ms ease-in;
+  -ms-animation: fadeIn 150ms ease-in;
   opacity: 1;
 }
 
-.fade-out {
-  opacity: 0;
-}
 
 .fade-out {
-  animation: fadeOut 300ms ease-in;
-  -webkit-animation: fadeOut 300ms ease-in;
-  -moz-animation: fadeOut 300ms ease-in;
-  -o-animation: fadeOut 300ms ease-in;
-  -ms-animation: fadeOut 300ms ease-in;
+  animation: fadeOut 150ms ease-in;
+  -webkit-animation: fadeOut 150ms ease-in;
+  -moz-animation: fadeOut 150ms ease-in;
+  -o-animation: fadeOut 150ms ease-in;
+  -ms-animation: fadeOut 150ms ease-in;
 }
+
 @keyframes fadeOut {
   0% {opacity:1;}
   100% {opacity:0;}
@@ -42,4 +39,29 @@
 @-ms-keyframes fadeOut {
   0% {opacity:1;}
   100% {opacity:0;}
+}
+
+@keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-moz-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-webkit-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-o-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-ms-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
 }
