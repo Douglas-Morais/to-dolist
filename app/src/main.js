@@ -42,7 +42,7 @@ export class AppMain extends HTMLElement {
   }
 
   createTag(ev) {
-    const appModal = document.createElement('app-modal');
+    const appModal = document.createElement('app-modal-tag');
     document.body.appendChild(appModal);
   }
 

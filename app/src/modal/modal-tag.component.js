@@ -2,7 +2,7 @@ import { API_SERVICE } from "../service/api.service.js";
 import ITag from "../interface/tag.js";
 import { EVENT_EMITTER } from "../service/event-emitter.js";
 
-export class AppModal extends HTMLElement {
+export class AppModalTag extends HTMLElement {
   #apiService;
   #formTag;
   #eventEmitter;
@@ -173,4 +173,4 @@ export class AppModal extends HTMLElement {
   }
 }
 
-customElements.define('app-modal', AppModal);
+customElements.define('app-modal-tag', AppModalTag);
