@@ -42,6 +42,31 @@ export class AppTask extends HTMLElement {
   }
 
   build() {
+    const checkTask = (ev) => {
+      ev.target.removeEventListener('click', this.checkTask)
+
+      if (this.#inputDescription.hasAttribute('checked')) return;
+      this.#apiService.checkTask(this.#task)
+        .then((task) => {
+          this.setAttribute('done', '');
+          this.#taskElement.classList.add('done');
+          this.children.namedItem('deadline').textContent = 'Concluído';
+          this.#inputDescription.setAttribute('checked', '');
+        })
+        .catch((err) => console.error(err))
+        .finally(() => {
+          this.#buttonEdit.removeEventListener('click', editTask, false);
+          this.#buttonCheck.removeEventListener('click', checkTask, false);
+        });
+    };
+
+    const editTask = (ev) => {
+      const appModal = document.createElement('app-modal-task-edit');
+      appModal.classList.add('fade-in');
+      appModal.setAttribute('data-object', JSON.stringify(this.#task));
+      document.body.appendChild(appModal);
+    };
+
     const template = document.getElementById('task-template');
     const templateContent = template.content;
 
@@ -51,34 +76,23 @@ export class AppTask extends HTMLElement {
     this.#inputDescription = this.shadowRoot.getElementById('description');
     this.#inputDescription.value = this.#task.description;
 
-    this.#buttonCheck = this.shadowRoot.getElementById('check');
-    this.#buttonCheck ? this.#buttonCheck.addEventListener('mouseover', this.checkFxMouseOver.bind(this)) : null;
-    this.#buttonCheck ? this.#buttonCheck.addEventListener('mouseout', this.checkFxMouseOut.bind(this)) : null;
-    this.#buttonCheck ? this.#buttonCheck.addEventListener('click', this.checkTask.bind(this)) : null;
-
     this.#buttonRemove = this.shadowRoot.getElementById('remove');
     this.#buttonRemove ? this.#buttonRemove.addEventListener('click', this.removeTask.bind(this)) : null;
 
     this.#buttonEdit = this.shadowRoot.getElementById('edit');
-    this.#buttonEdit ? this.#buttonEdit.addEventListener('click', this.editTask.bind(this)) : null;
+    this.#buttonCheck = this.shadowRoot.getElementById('check');
 
+    if (this.hasAttribute('done')) return
+    this.#buttonEdit.addEventListener('click', editTask);
+    this.#buttonCheck.addEventListener('click', checkTask);
   }
 
-  checkFxMouseOver() {
-    const elTask = this.shadowRoot.getElementById('task');
-    elTask.classList.add('task-check-hover');
-  }
 
-  checkFxMouseOut() {
-    const elTask = this.shadowRoot.getElementById('task');
-    elTask.classList.remove('task-check-hover');
-  }
+  // First version for editing task.
+  // Only description field of each task was changed.
+  /* editTask(ev) {
 
-  editTask() {
-    // First version for editing task.
-    // Only description field of each task was changed.
-
-    /* if (this.#inputDescription.hasAttribute('checked')) return
+    if (this.#inputDescription.hasAttribute('checked')) return
     const oldInputValue = this.#inputDescription.value;
 
     this.#inputDescription.removeAttribute('readonly');
@@ -98,16 +112,12 @@ export class AppTask extends HTMLElement {
       this.#inputDescription.value = oldInputValue;
       this.#inputDescription.classList = 'input-plain-text';
       this.#inputDescription.setAttribute('readonly', '');
-    }; */
-
-    const appModal = document.createElement('app-modal-task-edit');
-    appModal.classList.add('fade-in');
-    appModal.setAttribute('data-object', JSON.stringify(this.#task));
-    document.body.appendChild(appModal);
-  }
+    };
+  } */
 
   updateTask(taskUpdated) {
     if (taskUpdated.id !== this.#task.id) return
+    this.#task = taskUpdated;
     this.#inputDescription.value = taskUpdated.description;
     this.children.namedItem('deadline').textContent = new Date(taskUpdated.deadline).toLocaleDateString()
     this.#apiService.getPriorityDescriptionByKey(taskUpdated.priorityKey)
@@ -149,19 +159,6 @@ export class AppTask extends HTMLElement {
       .then((updatedTask) => {
         this.#inputDescription.classList = 'input-plain-text';
         this.#inputDescription.setAttribute('readonly', '');
-      });
-  }
-
-  checkTask() {
-    if (this.#inputDescription.hasAttribute('checked')) return;
-    this.#apiService.checkTask(this.#task)
-      .then((task) => {
-        this.setAttribute('done', '');
-        this.#taskElement.classList.add('done');
-        this.children.namedItem('deadline').textContent = 'Concluído';
-        this.#inputDescription.setAttribute('checked', '');
-        this.#buttonCheck.removeEventListener('click', this.checkTask, false);
-        this.#buttonEdit.removeEventListener('click', this.editTask, false);
       });
   }
 
