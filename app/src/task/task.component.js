@@ -1,24 +1,22 @@
 import ITask from "../interface/task.js";
 import { API_SERVICE } from "../service/api.service.js";
+import { EVENT_EMITTER } from "../service/event-emitter.js";
 
 export class AppTask extends HTMLElement {
-  #pathIconDoubleCheck = '../assets/icons/check-double-solid.svg';
-  #pathIconHandOk = '../assets/icons/hand-ok-solid.svg';
-
   #inputDescription;
   #buttonCheck;
   #buttonRemove;
   #buttonEdit;
-
   #taskElement;
-
   #task;
   #apiService;
+  #eventEmitter;
   #formEditTask;
 
   constructor() {
     super();
     this.#apiService = API_SERVICE;
+    this.#eventEmitter = EVENT_EMITTER;
   }
 
   connectedCallback() {
@@ -36,10 +34,11 @@ export class AppTask extends HTMLElement {
     this.#formEditTask.addEventListener('input', this.validateFormEditTask.bind(this));
     this.#formEditTask.addEventListener('submit', this.submitFormEditTask.bind(this));
     this.#taskElement = this.shadowRoot.getElementById('task');
-    if(this.hasAttribute('done')) {
+    if (this.hasAttribute('done')) {
       this.#taskElement.classList.add('done');
-      this.#inputDescription.setAttribute('checked','');
+      this.#inputDescription.setAttribute('checked', '');
     };
+    this.#eventEmitter.on('updatedTask', this.updateTask.bind(this));
   }
 
   build() {
@@ -76,7 +75,10 @@ export class AppTask extends HTMLElement {
   }
 
   editTask() {
-    if (this.#inputDescription.hasAttribute('checked')) return
+    // First version for editing task.
+    // Only description field of each task was changed.
+
+    /* if (this.#inputDescription.hasAttribute('checked')) return
     const oldInputValue = this.#inputDescription.value;
 
     this.#inputDescription.removeAttribute('readonly');
@@ -96,7 +98,26 @@ export class AppTask extends HTMLElement {
       this.#inputDescription.value = oldInputValue;
       this.#inputDescription.classList = 'input-plain-text';
       this.#inputDescription.setAttribute('readonly', '');
-    };
+    }; */
+
+    const appModal = document.createElement('app-modal-task-edit');
+    appModal.classList.add('fade-in');
+    appModal.setAttribute('data-object', JSON.stringify(this.#task));
+    document.body.appendChild(appModal);
+  }
+
+  updateTask(taskUpdated) {
+    if (taskUpdated.id !== this.#task.id) return
+    this.#inputDescription.value = taskUpdated.description;
+    this.children.namedItem('deadline').textContent = new Date(taskUpdated.deadline).toLocaleDateString()
+    this.#apiService.getPriorityDescriptionByKey(taskUpdated.priorityKey)
+      .then((priorityDescription) => {
+        this.children.namedItem('priorityKey').textContent = priorityDescription;
+      });
+    this.#apiService.getTagDescriptionByKey(taskUpdated.tagKey)
+      .then((tagDescription) => {
+        this.children.namedItem('tagKey').textContent = tagDescription;
+      });
   }
 
   validateFormEditTask(evInput) {
@@ -135,10 +156,10 @@ export class AppTask extends HTMLElement {
     if (this.#inputDescription.hasAttribute('checked')) return;
     this.#apiService.checkTask(this.#task)
       .then((task) => {
-        this.setAttribute('done','');
+        this.setAttribute('done', '');
         this.#taskElement.classList.add('done');
         this.children.namedItem('deadline').textContent = 'Concluído';
-        this.#inputDescription.setAttribute('checked','');
+        this.#inputDescription.setAttribute('checked', '');
         this.#buttonCheck.removeEventListener('click', this.checkTask, false);
         this.#buttonEdit.removeEventListener('click', this.editTask, false);
       });

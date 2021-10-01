@@ -173,6 +173,7 @@
 .task-control .tags ul {
   font-size: .85rem;
   text-align: center;
+  text-transform: capitalize;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;

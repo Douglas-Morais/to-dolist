@@ -67,10 +67,33 @@
 .modal-body label {
   color:rgb(46, 46, 46);
 }
+
 .modal-body input {
   outline: auto;
 }
+
 .modal-body input:focus {
+  outline: auto;
+}
+
+.modal-body select {
+  outline: auto;
+}
+
+.modal-body.task {
+  padding: 20px 16px;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-body.task label {
+  color:rgb(46, 46, 46);
+}
+.modal-body.task input {
+  outline: auto;
+}
+.modal-body.task input:focus {
   outline: auto;
 }
 
