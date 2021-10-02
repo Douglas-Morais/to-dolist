@@ -1,5 +1,4 @@
 import { API_SERVICE } from "../service/api.service.js";
-import ITag from "../interface/tag.js";
 import { EVENT_EMITTER } from "../service/event-emitter.js";
 import ITask from "../interface/task.js";
 
@@ -18,6 +17,7 @@ export class AppModalTaskEdit extends HTMLElement {
   }
 
   connectedCallback() {
+    this.style.visibility = 'hidden';
     this.#task = JSON.parse(this.getAttribute('data-object'));
     this.removeAttribute('data-object');
     const shadow = this.attachShadow({ mode: 'open' });
@@ -29,6 +29,11 @@ export class AppModalTaskEdit extends HTMLElement {
     this.#selectTagElement = this.shadowRoot.getElementById('select-tag');
     this.insertTagsOptionIntoModal();
     this.fillInputData();
+    const eventStart = this.shadowRoot.getElementById('modal-content')
+      .addEventListener('animationstart', () => {
+        this.removeAttribute('style');
+        this.removeEventListener('animationstart', eventStart);
+      });
   }
 
   buildTemplate() {
@@ -36,7 +41,7 @@ export class AppModalTaskEdit extends HTMLElement {
       <link rel="stylesheet" href="./style.css">
       <form name="formTask" id="formTask">
         <div class="modal" id="modal">
-          <div class="modal-content">
+          <div class="modal-content" id="modal-content">
             <div class="modal-header">
               <h2>Editando Tarefa</h2>
               <span id="close">&times;</span>
