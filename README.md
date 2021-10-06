@@ -1,4 +1,4 @@
-# IMERSÃO 42 - First Week
+# IMERSÃO 42 - To-Do List
 
 ## Welcome to my first To-Do list
 
