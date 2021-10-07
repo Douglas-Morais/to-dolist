@@ -4,6 +4,7 @@
   "description": "project developed under the mentorship of immersion42",
   "main": "main.js",
   "scripts": {
+    "pretest": "clear",
     "test": "jest",
     "test:cov": "jest --coverage"
   },
